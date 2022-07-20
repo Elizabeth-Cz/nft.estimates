@@ -1,0 +1,17 @@
+export const Common = {
+  NftEstimates: "NFT Estimates",
+  SearchNow: "Search now...",
+  Home: "Home",
+  Collection: "Collection",
+  Collections: "Collections",
+  Asset: "Asset",
+  Assets: "Assets",
+  ForSale: "For Sale",
+  CollectionValue: "Collection Value",
+  CollectionVolume24h: "Collection Volume (24h)",
+  AssetVolume1y: "Asset Volume (1y)",
+  CollectionSupply: "Collection Supply",
+  DailyEstimates: "Daily Estimates",
+  HottestNFTDealsDesc: "The hottest NFT deals in your inbox, every day.",
+  ExampleAtEmailDotCom: "example@email.com",
+};

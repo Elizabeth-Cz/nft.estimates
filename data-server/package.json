@@ -1,0 +1,34 @@
+{
+  "name": "nft-estimates-data-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "fetchAsset": "ts-node index.ts fetch asset --contract=0xd4e4078ca3495de5b1d4db434bebc5a986197782 --token=114",
+    "consumeAssets": "ts-node index.ts consume assets --contract=0x34d85c9cdeb23fa97cb08333b511ac86e1c4e258",
+    "consumeBAAssets": "ts-node index.ts consume assets --contract=0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
+    "consumeCollection": "ts-node index.ts consume collection --contractSlug=boredapeyachtclub",
+    "playground": "ts-node index.ts playground"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@typegoose/typegoose": "^9.8.1",
+    "@types/lodash": "^4.14.182",
+    "axios": "^0.27.2",
+    "lodash": "^4.17.21",
+    "minimist": "^1.2.6",
+    "moment": "^2.29.3",
+    "mongoose": "^6.3.3",
+    "nodemon": "^2.0.16",
+    "ts-node": "^10.7.0",
+    "tslib": "^2.4.0",
+    "typescript": "^4.6.4"
+  },
+  "devDependencies": {
+    "@types/minimist": "^1.2.2",
+    "prettier": "2.7.1",
+    "tsconfig-paths": "^4.0.0"
+  }
+}

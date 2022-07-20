@@ -1,0 +1,17 @@
+{
+  "name": "@skeksify/nfte-common",
+  "version": "1.0.0",
+  "description": "NFTE Common Lib",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "skeksify",
+  "license": "ISC",
+  "repository": "git@github.com:skeksify/nft.git",
+  "dependencies": {
+    "moment": "^2.29.3",
+    "@typegoose/typegoose": "^9.8.1",
+    "typescript": "^4.6.4"
+  }
+}
