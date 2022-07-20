@@ -8,7 +8,7 @@
 // import {Paper} from "@UI/Paper/Paper";
 // import {Common} from "@RESOURCES/translations/english/common";
 // import {Colors} from "@RESOURCES/colors";
-// import {Asset} from "@COMMON/entities/Asset";
+// import {Asset} from "@skeksify/nfte-common/entities/Asset";
 // import {Breadcrumbs} from "@UI/Breadcrumbs/Breadcrumbs";
 // import {Pages} from "../../pages/pages.types";
 // import {maxPageWidth} from "@UI/Layout/Layout";

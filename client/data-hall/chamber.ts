@@ -1,6 +1,6 @@
-import { Entity } from "@COMMON/entities/entity";
+import { Entity } from "@skeksify/nfte-common/entities/entity";
 import axios from "axios";
-import { Routes } from "@COMMON/routes";
+import { Routes } from "@skeksify/nfte-common/routes";
 import _ from "lodash";
 
 type Query = Record<string, string>;

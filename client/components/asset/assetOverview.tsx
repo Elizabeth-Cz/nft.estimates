@@ -5,7 +5,6 @@ import { Tabs } from "@UI/Tabs/Tabs";
 import { Text } from "@UI/Text/Text";
 import { Paper } from "@UI/Paper/Paper";
 import { Colors } from "@RESOURCES/colors";
-import { Asset } from "@COMMON/entities/Asset";
 import { Breadcrumbs } from "@UI/Breadcrumbs/Breadcrumbs";
 import { Pages } from "../../pages/pages.types";
 import { maxPageWidth } from "@UI/Layout/Layout";
@@ -17,6 +16,7 @@ import { GeneralDetailsTable } from "@COMPONENTS/asset/generalDetailsTable";
 import { makeDateTime } from "../../app-logic/datetime";
 import { Grid } from "@UI/Grid/Grid";
 import { useScreenSize } from "../../hooks/useMediaQuery";
+import {Asset} from "@skeksify/nfte-common/entities/Asset";
 
 const forSaleStyle: CSSProperties = {
   width: 60,

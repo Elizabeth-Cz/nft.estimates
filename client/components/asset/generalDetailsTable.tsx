@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import { Asset } from "@COMMON/entities/Asset";
 import { Table } from "@UI/Table/Table";
+import {Asset} from "@skeksify/nfte-common/entities/Asset";
 
 interface Props {
   asset: Asset;

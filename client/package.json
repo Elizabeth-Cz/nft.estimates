@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@skeksify/nfte-common": "1.0.1",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.8.0",
@@ -39,7 +40,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/skeksify/nft.git"
+    "url": "git+https://github.com/skeksify/nft.estimates.git"
   },
   "keywords": [
     "NFT",

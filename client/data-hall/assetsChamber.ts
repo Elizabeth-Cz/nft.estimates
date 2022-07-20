@@ -1,6 +1,6 @@
 import { Chamber } from "./chamber";
-import { Asset } from "@COMMON/entities/Asset";
-import { Routes } from "@COMMON/routes";
+import { Asset } from "@skeksify/nfte-common/entities/Asset";
+import { Routes } from "@skeksify/nfte-common/routes";
 
 class AssetsChamber extends Chamber<Asset> {
   constructor() {

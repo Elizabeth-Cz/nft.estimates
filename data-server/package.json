@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "fetchAsset": "ts-node index.ts fetch asset --contract=0xd4e4078ca3495de5b1d4db434bebc5a986197782 --token=114",
-    "consumeAssets": "ts-node index.ts consume assets --contract=0x34d85c9cdeb23fa97cb08333b511ac86e1c4e258",
-    "consumeBAAssets": "ts-node index.ts consume assets --contract=0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
+    "consumeOtherdeedAssets": "ts-node index.ts consume assets --contract=0x34d85c9cdeb23fa97cb08333b511ac86e1c4e258",
+    "consumeBoredApeAssets": "ts-node index.ts consume assets --contract=0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
     "consumeCollection": "ts-node index.ts consume collection --contractSlug=boredapeyachtclub",
     "playground": "ts-node index.ts playground"
   },

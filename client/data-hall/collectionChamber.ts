@@ -1,6 +1,6 @@
 import { Chamber } from "./chamber";
-import { Routes } from "@COMMON/routes";
-import { Collection } from "@COMMON/entities/Collection";
+import {Collection} from "@skeksify/nfte-common/entities/Collection";
+import {Routes} from "@skeksify/nfte-common/routes";
 
 class CollectionsChamber extends Chamber<Collection> {
   constructor() {
