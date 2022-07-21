@@ -36,7 +36,10 @@ app.get(Routes.DATA_HALL_ROOT + Routes.ASSETS, async (req, res) => {
     res.send(makeResultObj([asset]));
   } else if (typeof filter_text === "string") {
     const results = await assetRepository.getMany({
-      tokenId: { $regex: filter_text },
+      $or: [
+        { tokenId: { $regex: filter_text } },
+        { $text: { $search: filter_text } },
+      ],
     });
     results && res.send(makeResultObj(results));
   } else {

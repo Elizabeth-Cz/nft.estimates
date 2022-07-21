@@ -1,5 +1,5 @@
 import { db } from "../../src/db/database";
-import { assetRepository } from "./asset.repository";
+import { assetRepository } from "./Asset.repository";
 
 class DataCenter {
   public assets = assetRepository;
