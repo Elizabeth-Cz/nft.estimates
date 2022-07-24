@@ -6,3 +6,5 @@ enum DateTimeFormat {
 
 export const makeDateTime = (dateTime: string) =>
   moment(dateTime).format(DateTimeFormat.standardLong);
+export const makeCalendarDateTime = (dateTime: string) =>
+  moment().calendar(dateTime);

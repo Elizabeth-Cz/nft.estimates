@@ -21,8 +21,19 @@ const headersObj = {
     "X-API-KEY": "0037e16da01741fd8bd8ae743c911b3d",
   },
 };
+// Can be created for new auctions, successful for sales,
+// cancelled, bid_entered, bid_withdrawn, transfer, offer_entered, or approve
+type EventTypes =
+  | "created"
+  | "successful"
+  | "cancelled"
+  | "bid_entered"
+  | "bid_withdrawn"
+  | "transfer"
+  | "offer_entered"
+  | "approve";
 
-type EndPoint = "assets" | "collections";
+type EndPoint = "assets" | "collections" | "events";
 const buildEndPoint: (endPoint: EndPoint, param1?: string) => string = (
   endPoint,
   param1
@@ -30,6 +41,7 @@ const buildEndPoint: (endPoint: EndPoint, param1?: string) => string = (
   const map: Record<EndPoint, string> = {
     assets: `${baseUrl}assets`,
     collections: `${baseUrl}collection/${param1}`,
+    events: `${baseUrl}events`,
   };
   return map[endPoint];
 };
@@ -56,6 +68,21 @@ class OpenSeaFetcher {
         limit: "50",
         order_direction: "asc",
         include_orders: "false",
+      });
+  }
+
+  public buildEventFetcher(
+    eventType: EventTypes = "successful",
+    contractAddress: string,
+    tokenId?: string
+  ): OpenSeaPageFetcher {
+    return async (cursor) =>
+      await this.fetchAny<OpenSeaApiResponse>("events", {
+        cursor,
+        asset_contract_address: contractAddress,
+        event_type: eventType,
+        occurred_after: "0",
+        token_id: tokenId,
       });
   }
 

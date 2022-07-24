@@ -1,7 +1,7 @@
-import { Consumption } from "@COMMON/entities/Consumption";
 import { Time } from "../../toolset/time";
 import moment from "moment";
-import { consumptionRepository } from "@COMMON/repositories/Consumption.repository";
+import { Consumption } from "@skeksify/nfte-common/dist/entities/Consumption";
+import { consumptionRepository } from "@skeksify/nfte-common";
 
 class ConsumptionManager {
   private current: Consumption;

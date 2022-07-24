@@ -1,4 +1,4 @@
-import { Entity } from "./entity";
+import { Entity } from "./Entity";
 import { prop } from "@typegoose/typegoose";
 
 export class Collection extends Entity {

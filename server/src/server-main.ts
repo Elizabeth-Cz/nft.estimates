@@ -1,9 +1,12 @@
+import * as dotenv from "dotenv"; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 import Express from "express";
-import { db } from "./db/database";
 import cors from "cors";
-import { assetRepository } from "../common/repositories/Asset.repository";
-import { Routes } from "../common/routes";
-import { collectionRepository } from "../common/repositories/Collection.repository";
+import { assetRepository } from "@skeksify/nfte-common/dist/repositories/Asset.repository";
+import { connectToDb } from "@skeksify/nfte-common/dist/db/connect";
+import { collectionRepository } from "@skeksify/nfte-common/dist/repositories/Collection.repository";
+import { Routes } from "@skeksify/nfte-common/dist/routes";
+
+dotenv.config();
 
 const app = Express();
 const PORT = 9000;
@@ -64,7 +67,7 @@ app.get(Routes.DATA_HALL_ROOT + Routes.COLLECTIONS, async (req, res) => {
 app.listen(PORT, HOST, () => {
   console.log(`Server running on port ${PORT}`);
   try {
-    db.connectToDb();
+    connectToDb();
   } catch (e) {
     console.log(`Can't connect to db (${e})`);
     process.exit();

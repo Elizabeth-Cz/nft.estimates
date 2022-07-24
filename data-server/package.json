@@ -2,20 +2,22 @@
   "name": "nft-estimates-data-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "data-server-main.ts",
   "scripts": {
-    "fetchAsset": "ts-node index.ts fetch asset --contract=0xd4e4078ca3495de5b1d4db434bebc5a986197782 --token=114",
-    "consumeOtherdeedAssets": "ts-node index.ts consume assets --contract=0x34d85c9cdeb23fa97cb08333b511ac86e1c4e258",
-    "consumeBoredApeAssets": "ts-node index.ts consume assets --contract=0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
-    "consumeCollection": "ts-node index.ts consume collection --contractSlug=boredapeyachtclub",
-    "playground": "ts-node index.ts playground"
+    "fetchAsset": "ts-node data-server-main.ts fetch asset --contract=0xd4e4078ca3495de5b1d4db434bebc5a986197782 --token=114",
+    "consumeOtherdeedAssets": "ts-node data-server-main.ts consume assets --contract=0x34d85c9cdeb23fa97cb08333b511ac86e1c4e258",
+    "consumeBoredApeAssets": "ts-node data-server-main.ts consume assets --contract=0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
+    "consumeCollection": "ts-node data-server-main.ts consume collection --contractSlug=boredapeyachtclub",
+    "playground": "ts-node data-server-main.ts playground"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@skeksify/nfte-common": "^1.0.83",
     "@typegoose/typegoose": "^9.8.1",
     "@types/lodash": "^4.14.182",
+    "dotenv": "^16.0.1",
     "axios": "^0.27.2",
     "lodash": "^4.17.21",
     "minimist": "^1.2.6",

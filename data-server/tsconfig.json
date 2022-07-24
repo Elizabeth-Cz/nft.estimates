@@ -6,13 +6,11 @@
     "target": "es6",
     "baseUrl": ".",
     "paths": {
-      "@COMMON/*": ["../server/common/*"],
       "@APIs/*": ["externalAPIs/*"]
     },
     "sourceMap": true,
     "noImplicitAny": true,
     "strict": true,
-    "jsx": "react-jsx",
     "esModuleInterop": true,
     "importHelpers": true,
     "moduleResolution": "node",

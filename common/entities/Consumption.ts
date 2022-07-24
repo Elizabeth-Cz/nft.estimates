@@ -1,4 +1,4 @@
-import { Entity, EntityType } from "./entity";
+import { Entity, EntityType } from "./Entity";
 import { prop } from "@typegoose/typegoose";
 
 export enum ConsumptionDataType {

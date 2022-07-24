@@ -3,6 +3,7 @@ import { BeAnObject } from "@typegoose/typegoose/lib/types";
 import { Entity } from "../entities/entity";
 import moment from "moment";
 import { DateFormat } from "../toolset/dateTime";
+import { FilterQuery } from "mongoose";
 
 interface Newable {
   new (...args: any[]): any;
@@ -84,6 +85,21 @@ export class BaseRepository<
             resolve(item[0] || null);
           }
         })
+    );
+  }
+
+  public getMany(
+    query: Record<string, FilterQuery<any>>
+  ): Promise<DATA_TYPE[] | null> {
+    return new Promise<DATA_TYPE[] | null>((resolve, reject) =>
+      this.model.find(query).exec((err, items: any[]) => {
+        if (err) {
+          console.log("Error:", err);
+          reject(err);
+        } else {
+          resolve(items || null);
+        }
+      })
     );
   }
 }

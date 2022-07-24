@@ -2,15 +2,21 @@
   "name": "nft-estimates-server",
   "version": "0.1.0",
   "description": "NFT Estimates Server",
-  "main": "main.ts",
+  "main": "server-main.ts",
   "scripts": {
     "start-server": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skeksify/nft.estimates.git"
   },
   "author": "Estimator",
   "license": "ISC",
   "dependencies": {
+    "@skeksify/nfte-common": "^1.0.83",
     "@typegoose/typegoose": "^9.8.1",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "moment": "^2.29.3",
     "mongoose": "^6.3.3"

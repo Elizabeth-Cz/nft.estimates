@@ -1,12 +1,12 @@
 import { BaseConsumer } from "./base.consumer";
 import { openSeaFetcher } from "@APIs/OpenSea/OpenSeaFetcher";
-import { assetRepository } from "@COMMON/repositories/asset.repository";
 import { syncForEach } from "../../toolset/iterators";
-import { assetLiveDataRepository } from "@COMMON/repositories/assetLiveData.repository";
 import { logger } from "../../toolset/logger";
 import { consumptionManager } from "./consumptionManager";
-import { EntityType } from "@COMMON/entities/entity";
-import { ConsumptionDataType } from "@COMMON/entities/Consumption";
+import { assetRepository } from "@skeksify/nfte-common/dist/repositories/Asset.repository";
+import { ConsumptionDataType } from "@skeksify/nfte-common/dist/entities/Consumption";
+import { assetLiveDataRepository } from "@skeksify/nfte-common/dist/repositories/AssetLiveData.repository";
+import { EntityType } from "@skeksify/nfte-common/dist/entities/Entity";
 
 const numberOfAssetsToTake = 100;
 

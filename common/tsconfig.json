@@ -2,30 +2,27 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "module": "commonjs",
-    "target": "es6",
-    "baseUrl": ".",
-    "paths": {
-    },
+    "lib": [
+      "es2017",
+      "es7",
+      "es6",
+      "dom"
+    ],
+    "isolatedModules": true,
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "skipLibCheck": true,
+    "target": "ESNext",
+    "declaration": true,
     "sourceMap": true,
     "noImplicitAny": true,
     "strict": true,
-    "jsx": "react-jsx",
     "esModuleInterop": true,
     "importHelpers": true,
-    "moduleResolution": "node",
     "outDir": "dist"
   },
-  "watchOptions": {
-    "watchFile": "useFsEvents",
-    "watchDirectory": "useFsEvents"
-  },
   "exclude": [
-    "node_modules"
-  ],
-  "ts-node": {
-    "require": [
-      "tsconfig-paths/register"
-    ]
-  }
+    "node_modules",
+    "dist"
+  ]
 }

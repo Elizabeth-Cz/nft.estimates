@@ -1,5 +1,7 @@
 .npmrc
 
+.env
+
 # dependencies
 node_modules/
 /.pnp

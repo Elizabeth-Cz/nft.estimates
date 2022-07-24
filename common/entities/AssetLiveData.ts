@@ -1,5 +1,5 @@
 import { prop } from "@typegoose/typegoose";
-import { Entity } from "./entity";
+import { Entity } from "./Entity";
 
 export class AssetLiveData extends Entity {
   constructor(initializer?: Partial<AssetLiveData>) {

@@ -13,10 +13,11 @@ import { TwoCoins } from "@ICONS/icons";
 import { Picture } from "@UI/Picture/picture";
 import { TraitsTable } from "@COMPONENTS/asset/traitsTable";
 import { GeneralDetailsTable } from "@COMPONENTS/asset/generalDetailsTable";
-import { makeDateTime } from "../../app-logic/datetime";
+import { makeCalendarDateTime } from "../../app-logic/datetime";
 import { Grid } from "@UI/Grid/Grid";
 import { useScreenSize } from "../../hooks/useMediaQuery";
-import {Asset} from "@skeksify/nfte-common/entities/Asset";
+import { Asset } from "@skeksify/nfte-common/entities/Asset";
+import { GridContainer } from "@UI/Grid/GridContainer";
 
 const forSaleStyle: CSSProperties = {
   width: 60,
@@ -116,7 +117,7 @@ export const AssetOverview: FC<Props> = ({ asset, collection }: Props) => {
                         marginBottom={10}
                         fontWeight={600}
                         textAlign={"left"}
-                        long
+                        longText
                       >
                         {collection.name}
                       </Text.Header>
@@ -125,61 +126,62 @@ export const AssetOverview: FC<Props> = ({ asset, collection }: Props) => {
                 </View>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <FinancialOverview
-                  data={[
-                    {
-                      label: "Est. Value",
-                      value: "$2.5M",
-                      IconSrc: TwoCoins,
-                    },
-                    {
-                      label: "Rarity Factor",
-                      value: "7.3",
-                      IconSrc: TwoCoins,
-                    },
-                    {
-                      label: "Last Sale Price",
-                      value: asset.liveData?.lastSalePrice,
-                      IconSrc: TwoCoins,
-                    },
-                    {
-                      label: "Last Sale Date",
-                      value: asset.liveData?.lastSaleDate
-                        ? makeDateTime(asset.liveData.lastSaleDate)
-                        : "",
-                      IconSrc: TwoCoins,
-                    },
-                  ]}
-                />
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <FinancialOverview
-                  miniMode
-                  data={[
-                    {
-                      label: "Est. Value",
-                      value: "$2.5M",
-                      IconSrc: TwoCoins,
-                    },
-                    {
-                      label: "Rarity Factor",
-                      value: "7.3",
-                      IconSrc: TwoCoins,
-                    },
-                    {
-                      label: "Last Sale Price",
-                      value: asset.liveData?.lastSalePrice,
-                      IconSrc: TwoCoins,
-                    },
-                    {
-                      label: "Last Sale Date",
-                      value: asset.liveData?.lastSaleDate
-                        ? makeDateTime(asset.liveData.lastSaleDate)
-                        : "",
-                      IconSrc: TwoCoins,
-                    },
-                  ]}
-                />
+                <GridContainer>
+                  <FinancialOverview
+                    data={[
+                      {
+                        label: "Est. Value",
+                        value: "$2.5M",
+                        IconSrc: TwoCoins,
+                      },
+                      {
+                        label: "Rarity Factor",
+                        value: "7.3",
+                        IconSrc: TwoCoins,
+                      },
+                      {
+                        label: "Last Sale Price",
+                        value: asset.liveData?.lastSalePrice,
+                        IconSrc: TwoCoins,
+                      },
+                      {
+                        label: "Last Sale Date",
+                        value: asset.liveData?.lastSaleDate
+                          ? makeCalendarDateTime(asset.liveData.lastSaleDate)
+                          : "",
+                        IconSrc: TwoCoins,
+                      },
+                    ]}
+                  />
+                  <FinancialOverview
+                    miniMode
+                    data={[
+                      {
+                        label: "Est. Value",
+                        value: "$2.5M",
+                        IconSrc: TwoCoins,
+                      },
+                      {
+                        label: "Rarity Factor",
+                        value: "7.3",
+                        IconSrc: TwoCoins,
+                      },
+                      {
+                        label: "Last Sale Price",
+                        value: asset.liveData?.lastSalePrice,
+                        IconSrc: TwoCoins,
+                      },
+                      {
+                        label: "Last Sale Date",
+                        value: asset.liveData?.lastSaleDate
+                          ? makeCalendarDateTime(asset.liveData.lastSaleDate)
+                          : "",
+                        IconSrc: TwoCoins,
+                        size: "small",
+                      },
+                    ]}
+                  />
+                </GridContainer>
               </Grid>
             </Grid>
           </FlexView>

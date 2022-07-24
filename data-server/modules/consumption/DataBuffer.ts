@@ -1,10 +1,10 @@
 import { OpenSeaAsset } from "@APIs/OpenSea/OpenSea.asset";
 import _ from "lodash";
-import { Asset } from "@COMMON/entities/Asset";
 import { openSeaMapper } from "@APIs/OpenSea/OpenSeaMapper";
-import { AssetLiveData } from "@COMMON/entities/AssetLiveData";
 import { OpenSeaCollection } from "@APIs/OpenSea/OpenSea.collection";
-import { Collection } from "@COMMON/entities/Collection";
+import { Asset } from "@skeksify/nfte-common/dist/entities/Asset";
+import { AssetLiveData } from "@skeksify/nfte-common/dist/entities/AssetLiveData";
+import { Collection } from "@skeksify/nfte-common/dist/entities/Collection";
 
 const chewChunksArray = <T>(chunks: T[][]): T[] =>
   _.flatten(chunks.reverse()).reverse();

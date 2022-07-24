@@ -17,7 +17,7 @@ export interface TextProps extends CSSProperties {
   size24?: boolean;
   size32?: boolean;
   colorEnum?: Colors;
-  long?: boolean;
+  longText?: boolean;
 }
 
 const defaultStyle: CSSProperties = {
@@ -51,13 +51,13 @@ export const Text: FCC<TextProps> & TextPermutations = ({
   size24,
   size32,
   colorEnum,
-  long,
+  longText,
   children,
   ...rest
 }) => {
   const overrideStyle = useCustomStyles([
     [!!colorEnum, { color: colorEnum }],
-    [!!long, { whiteSpace: "normal" }],
+    [!!longText, { whiteSpace: "normal" }],
   ]);
   DEBUG && console.log(overrideStyle);
   return (

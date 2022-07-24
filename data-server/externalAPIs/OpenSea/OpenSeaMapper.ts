@@ -1,10 +1,10 @@
 import _ from "lodash";
 import { OpenSeaAsset } from "./OpenSea.asset";
 import mongoose from "mongoose";
-import { Asset } from "@COMMON/entities/Asset";
-import { AssetLiveData } from "@COMMON/entities/AssetLiveData";
 import { OpenSeaCollection } from "@APIs/OpenSea/OpenSea.collection";
-import { Collection } from "@COMMON/entities/Collection";
+import { Asset } from "@skeksify/nfte-common/dist/entities/Asset";
+import { AssetLiveData } from "@skeksify/nfte-common/dist/entities/AssetLiveData";
+import { Collection } from "@skeksify/nfte-common/dist/entities/Collection";
 
 const quintillion = Math.pow(10, 18);
 const getPrice = (price?: number | string) => (price ? +price : 0);

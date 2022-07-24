@@ -1,10 +1,12 @@
+import * as dotenv from "dotenv";
 import minimist from "minimist";
-import { playground } from "./modules/consumption/assets";
 import { getDetails } from "./getAssetDetails";
-import { dataCenter } from "@COMMON/repositories/dataCenter";
 import { assetConsumer } from "./modules/consumption/Asset.consumer";
-import { ConsumptionDataType } from "@COMMON/entities/Consumption";
 import { collectionConsumer } from "./modules/consumption/Collection.consumer";
+import { ConsumptionDataType } from "@skeksify/nfte-common/dist/entities/Consumption";
+import { connectToDb } from "@skeksify/nfte-common/dist/db/connect";
+
+dotenv.config();
 
 const printIntro = (action: string, type: string, params: string) =>
   console.log(`
@@ -26,7 +28,7 @@ const catchEx = (e: Error) => {
 };
 
 const dbAction = async (action: () => Promise<void>) => {
-  await dataCenter.init();
+  await connectToDb();
   await action().catch(catchEx);
   process.exit();
 };
@@ -64,7 +66,7 @@ const actionsMap: Record<Actions, (type: string, params: Parameters) => void> =
     },
     [Actions.PROCESS]: () => {},
     [Actions.PLAYGROUND]: () => {
-      playground();
+      // playground();
     },
   };
 

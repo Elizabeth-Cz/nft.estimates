@@ -18,6 +18,7 @@ interface Props {
   upperTextColor?: Colors;
   lowerTextColor?: Colors;
   miniMode?: boolean;
+  smallText?: boolean;
 }
 
 interface IconBoxPermutations {
@@ -41,7 +42,9 @@ export const IconBox: FC<Props> & IconBoxPermutations = ({
   upperTextColor = Colors.BlueDark2,
   lowerTextColor = Colors.Blue1,
   miniMode,
+  smallText,
 }: Props) => {
+  const textSize = miniMode || smallText ? { size12: true } : { size24: true };
   return (
     <Paper
       height={100}
@@ -49,6 +52,7 @@ export const IconBox: FC<Props> & IconBoxPermutations = ({
       verticalCentered
       relative
       overflowHidden
+      padding={miniMode ? 10 : 20}
     >
       <RowView>
         <AutoView
@@ -62,16 +66,16 @@ export const IconBox: FC<Props> & IconBoxPermutations = ({
         >
           <Icon Src={IconSrc} />
         </AutoView>
-        <FlexView verticalCentered alignStart>
+        <FlexView verticalCentered alignItems={miniMode ? "center" : "start"}>
           {_.isString(upperText) || _.isNumber(upperText) ? (
-            <Text size13 colorEnum={upperTextColor}>
+            <Text size13 colorEnum={upperTextColor} longText>
               {upperText}
             </Text>
           ) : (
             upperText({})
           )}
           {_.isString(lowerText) || _.isNumber(lowerText) ? (
-            <Text size24 colorEnum={lowerTextColor} bold>
+            <Text {...textSize} colorEnum={lowerTextColor} bold longText>
               {lowerText}
             </Text>
           ) : (

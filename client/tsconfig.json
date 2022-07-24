@@ -5,7 +5,6 @@
       "@UI/*": ["components/ui-lib/*"],
       "@COMPONENTS/*": ["components/*"],
       "@DEFS/*": ["definitions/*"],
-//      "@COMMON/*": ["@skeksify/nfte-common/*"],
       "@ICONS/*": ["resources/icons/*"],
       "@RESOURCES/*": ["resources/*"],
       "@ANIMATIONS/*": ["resources/animations/*"]
