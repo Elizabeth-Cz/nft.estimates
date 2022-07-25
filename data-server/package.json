@@ -8,13 +8,15 @@
     "consumeOtherdeedAssets": "ts-node data-server-main.ts consume assets --contract=0x34d85c9cdeb23fa97cb08333b511ac86e1c4e258",
     "consumeBoredApeAssets": "ts-node data-server-main.ts consume assets --contract=0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
     "consumeCollection": "ts-node data-server-main.ts consume collection --contractSlug=boredapeyachtclub",
-    "playground": "ts-node data-server-main.ts playground"
+    "consumeEvents": "ts-node data-server-main.ts consume events --contract=0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d --token=13 --eventType=SALE",
+    "playground": "ts-node data-server-main.ts playground",
+    "update-common": "npm update @skeksify/nfte-common"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@skeksify/nfte-common": "^1.0.83",
+    "@skeksify/nfte-common": "^1.0.918",
     "@typegoose/typegoose": "^9.8.1",
     "@types/lodash": "^4.14.182",
     "dotenv": "^16.0.1",

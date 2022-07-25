@@ -4,16 +4,20 @@ import { NullableString } from "../../toolset/types";
 import { OpenSeaPageFetcher } from "../../modules/consumption/base.consumer";
 import { consumptionManager } from "../../modules/consumption/consumptionManager";
 import { OpenSeaCollection } from "@APIs/OpenSea/OpenSea.collection";
+import { OpenSeaEvent } from "@APIs/OpenSea/OpenSea.event";
+import { AssetEventTypes } from "@skeksify/nfte-common/dist/entities/AssetEvent";
+import _ from "lodash";
 
 export interface OpenSeaApiResponse {
   next: NullableString;
   previous: NullableString;
   assets?: OpenSeaAsset[];
-  asset_events?: unknown[];
+  asset_events?: OpenSeaEvent[];
   collection?: OpenSeaCollection;
 }
 
 const DEBUG_CALLS: boolean = false;
+const debugLog = DEBUG_CALLS ? console.log : _.noop;
 
 const baseUrl = `https://api.opensea.io/api/v1/`;
 const headersObj = {
@@ -21,9 +25,8 @@ const headersObj = {
     "X-API-KEY": "0037e16da01741fd8bd8ae743c911b3d",
   },
 };
-// Can be created for new auctions, successful for sales,
-// cancelled, bid_entered, bid_withdrawn, transfer, offer_entered, or approve
-type EventTypes =
+
+export type OpenSeaAssetEventTypes =
   | "created"
   | "successful"
   | "cancelled"
@@ -32,6 +35,17 @@ type EventTypes =
   | "transfer"
   | "offer_entered"
   | "approve";
+
+const eventToOpenSeaEventMap: Record<AssetEventTypes, OpenSeaAssetEventTypes> =
+  {
+    [AssetEventTypes.CREATION]: "created",
+    [AssetEventTypes.BID]: "bid_entered",
+    [AssetEventTypes.SALE]: "successful",
+  };
+
+export const openSeaEventTypeToEventType: Partial<
+  Record<OpenSeaAssetEventTypes, AssetEventTypes>
+> = _.invert(eventToOpenSeaEventMap);
 
 type EndPoint = "assets" | "collections" | "events";
 const buildEndPoint: (endPoint: EndPoint, param1?: string) => string = (
@@ -72,16 +86,21 @@ class OpenSeaFetcher {
   }
 
   public buildEventFetcher(
-    eventType: EventTypes = "successful",
+    eventType: AssetEventTypes,
+    fromTimestamp: number,
     contractAddress: string,
     tokenId?: string
   ): OpenSeaPageFetcher {
+    const openSeaEvent = eventToOpenSeaEventMap[eventType];
+    if (!openSeaEvent) {
+      throw new Error(`Event Type not implemented (Received: ${eventType})`);
+    }
     return async (cursor) =>
       await this.fetchAny<OpenSeaApiResponse>("events", {
         cursor,
         asset_contract_address: contractAddress,
-        event_type: eventType,
-        occurred_after: "0",
+        event_type: openSeaEvent,
+        occurred_after: fromTimestamp.toString(),
         token_id: tokenId,
       });
   }
@@ -94,13 +113,10 @@ class OpenSeaFetcher {
     consumptionManager.addAPICallCount();
     const url = buildEndPoint(endPoint, param1);
     const paramsObj = this.getAxiosConfig(params);
-    DEBUG_CALLS &&
-      console.log({
-        url,
-        paramsObj,
-      });
+    debugLog(`Axios Request -\nURL - ${url}`);
+    debugLog("PARAMS - ", paramsObj.params);
     const { data, status } = await axios.get<T>(url, paramsObj);
-    DEBUG_CALLS && console.log({ data });
+    debugLog("RESPONSE - ", data);
     return data;
   }
 

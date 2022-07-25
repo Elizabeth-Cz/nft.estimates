@@ -5,6 +5,8 @@ import { assetConsumer } from "./modules/consumption/Asset.consumer";
 import { collectionConsumer } from "./modules/consumption/Collection.consumer";
 import { ConsumptionDataType } from "@skeksify/nfte-common/dist/entities/Consumption";
 import { connectToDb } from "@skeksify/nfte-common/dist/db/connect";
+import { eventsConsumer } from "./modules/consumption/Event.consumer";
+import { AssetEventTypes } from "@skeksify/nfte-common/dist/entities/AssetEvent";
 
 dotenv.config();
 
@@ -33,43 +35,59 @@ const dbAction = async (action: () => Promise<void>) => {
   process.exit();
 };
 
-type ParameterOptions = "contract" | "token" | "contractSlug";
+type ParameterOptions = "contract" | "token" | "contractSlug" | "eventType";
+type TypeOptions = "asset" | "assets" | "collection" | "events";
 
 type Parameters = Record<ParameterOptions, string>;
 
-const actionsMap: Record<Actions, (type: string, params: Parameters) => void> =
-  {
-    [Actions.FETCH]: (type, { contract, token }) => {
-      if (type === "asset") {
-        console.log("Fetching Asset");
-        dbAction(async () => await getDetails(contract, token));
+const actionsMap: Record<
+  Actions,
+  (type: TypeOptions, params: Parameters) => void
+> = {
+  [Actions.FETCH]: (type, { contract, token }) => {
+    if (type === "asset") {
+      console.log("Fetching Asset");
+      dbAction(async () => await getDetails(contract, token));
+    }
+  },
+  [Actions.CONSUME]: (type, { contract, contractSlug, token, eventType }) => {
+    if (type === "assets") {
+      console.log("Consuming Assets");
+      dbAction(
+        async () =>
+          await assetConsumer.consume(contract, ConsumptionDataType.ONETIME)
+      );
+    }
+    if (type === "collection") {
+      console.log("Consuming Assets");
+      dbAction(
+        async () =>
+          await collectionConsumer.consume(
+            contractSlug,
+            ConsumptionDataType.ONETIME
+          )
+      );
+    }
+    if (type === "events") {
+      if (!eventType) {
+        throw new Error(`eventType is not defined (Received: ${eventType})`);
       }
-    },
-    [Actions.CONSUME]: (type, { contract, contractSlug }) => {
-      if (type === "assets") {
-        console.log("Consuming Assets");
-        dbAction(
-          async () =>
-            await assetConsumer.consume(contract, ConsumptionDataType.ONETIME)
-        );
-      }
-      if (type === "collection") {
-        console.log("Consuming Assets");
-        dbAction(
-          async () =>
-            await collectionConsumer.consume(
-              contractSlug,
-              ConsumptionDataType.ONETIME
-            )
-        );
-      }
-    },
-    [Actions.PROCESS]: () => {},
-    [Actions.PLAYGROUND]: () => {
-      // playground();
-    },
-  };
-
+      console.log("Consuming Events");
+      dbAction(
+        async () =>
+          await eventsConsumer.consume(
+            eventType as AssetEventTypes,
+            contract,
+            token
+          )
+      );
+    }
+  },
+  [Actions.PROCESS]: () => {},
+  [Actions.PLAYGROUND]: () => {
+    // playground();
+  },
+};
 const argsObj = minimist(process.argv.slice(2), {
   string: ["contract", "token"],
 });
@@ -83,7 +101,7 @@ if (!selectedAction) {
   throw `"${action}" Action not found`;
 } else {
   printIntro(action, type, JSON.stringify(rest));
-  selectedAction(type, rest as Parameters);
+  selectedAction(type as TypeOptions, rest as Parameters);
 }
 
 export const getArgs = () => argsObj;

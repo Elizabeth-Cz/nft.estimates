@@ -11,6 +11,7 @@ const maxIterations = 100;
 const delaySafety: number = 350;
 
 export abstract class BaseConsumer {
+  private forwardDirection?: boolean | null = null;
   private nextPageCursor?: string;
   private pingThrottler: PingThrottler;
   private currentPageNumber: number = 0;
@@ -41,18 +42,22 @@ export abstract class BaseConsumer {
 
   private async fetchNextPage(fetchPage: OpenSeaPageFetcher): Promise<void> {
     this.pingThrottler.ping();
-    const { previous, assets, collection } = await fetchPage(
-      this.nextPageCursor
-    );
+    const { previous, next, assets, collection, asset_events } =
+      await fetchPage(this.nextPageCursor);
+    if (this.forwardDirection === null) {
+      this.forwardDirection = !!next;
+    }
     assets && this.dataBuffer.loadRawAssetChunk(assets);
     collection && this.dataBuffer.loadRawCollection(collection);
+    asset_events && this.dataBuffer.loadRawEventsChunk(asset_events);
+    const nextPageCursor = this.forwardDirection ? next : previous;
     if (
-      previous &&
+      nextPageCursor &&
       this.currentPageNumber < this.pagesLimit &&
       this.currentPageNumber < maxIterations
     ) {
       this.currentPageNumber++;
-      this.nextPageCursor = previous;
+      this.nextPageCursor = nextPageCursor;
       await this.safeSleep(this.pingThrottler.delayRequired());
       await this.fetchNextPage(fetchPage);
     } else {

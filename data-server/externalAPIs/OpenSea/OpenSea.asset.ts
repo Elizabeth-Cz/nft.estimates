@@ -22,7 +22,7 @@ interface OpenSeaTrait {
   value: string;
 }
 
-interface OpenSeaAssetContract {
+export interface OpenSeaAssetContract {
   address: string;
 }
 

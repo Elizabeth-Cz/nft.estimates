@@ -1,6 +1,6 @@
 {
   "name": "@skeksify/nfte-common",
-  "version": "1.0.83",
+  "version": "1.0.918",
   "description": "NFTE Common Lib",
   "files": [
     "./dist/**"
@@ -9,7 +9,9 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "test-package": "npm pack",
-    "publish-package": "tsc && npm publish --access public"
+    "build-dist": "rm -rf dist && tsc",
+    "publish-package": "npm publish --access public",
+    "deploy-package-patch": "npm run build-dist && npm version patch && npm run publish-package"
   },
   "author": "skeksify",
   "license": "ISC",

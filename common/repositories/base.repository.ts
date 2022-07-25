@@ -35,7 +35,7 @@ export class BaseRepository<
   }
 
   public async update(
-    filter: Partial<InstanceType<CLASS_TYPE>>,
+    filter: FilterQuery<CLASS_TYPE>,
     instance: DATA_TYPE,
     createIfNew: boolean = true
   ) {
@@ -71,7 +71,7 @@ export class BaseRepository<
   // }
 
   public getOne(
-    query: Record<string, string | number>
+    query: Record<string, string | number | undefined>
   ): Promise<DATA_TYPE | void> {
     return new Promise<DATA_TYPE>((resolve, reject) =>
       this.model
