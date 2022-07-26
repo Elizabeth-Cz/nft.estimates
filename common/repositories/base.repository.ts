@@ -1,4 +1,8 @@
-import { getModelForClass, ReturnModelType } from "@typegoose/typegoose";
+import {
+  DocumentType,
+  getModelForClass,
+  ReturnModelType,
+} from "@typegoose/typegoose";
 import { BeAnObject } from "@typegoose/typegoose/lib/types";
 import { Entity } from "../entities/entity";
 import moment from "moment";
@@ -13,7 +17,7 @@ export class BaseRepository<
   DATA_TYPE extends Entity,
   CLASS_TYPE extends Newable
 > {
-  model: ReturnModelType<CLASS_TYPE, BeAnObject>;
+  public model: ReturnModelType<CLASS_TYPE, BeAnObject>;
 
   constructor(Class: CLASS_TYPE) {
     this.model = getModelForClass(Class);
@@ -43,20 +47,19 @@ export class BaseRepository<
     await this.model.updateOne(filter, instance, { upsert: createIfNew });
   }
 
-  // public async save(instance: DATA_TYPE) {
-  //   try {
-  //     const newModel = new this.model(instance);
-  //     await newModel.save();
-  //   } catch (e) {
-  //     console.log("SAVE EXCEPTION!\n\n");
-  //     console.log(e);
-  //   }
-  // }
-
   public async createMany(documents: DATA_TYPE[]) {
     const now = moment().format(DateFormat.FULL);
     documents.forEach((doc) => (doc.created = now));
     await this.model.insertMany(documents);
+  }
+
+  public async createOne(document: DATA_TYPE) {
+    document.created = moment().format(DateFormat.FULL);
+    await this.model.create(document);
+  }
+
+  public async saveMany(documents: DocumentType<DATA_TYPE>[]) {
+    await this.model.bulkSave(documents);
   }
 
   //
@@ -70,9 +73,7 @@ export class BaseRepository<
   //   })
   // }
 
-  public getOne(
-    query: Record<string, string | number | undefined>
-  ): Promise<DATA_TYPE | void> {
+  public getOne(query: FilterQuery<CLASS_TYPE>): Promise<DATA_TYPE | void> {
     return new Promise<DATA_TYPE>((resolve, reject) =>
       this.model
         .find(query)
@@ -88,18 +89,15 @@ export class BaseRepository<
     );
   }
 
-  public getMany(
-    query: Record<string, FilterQuery<any>>
-  ): Promise<DATA_TYPE[] | null> {
-    return new Promise<DATA_TYPE[] | null>((resolve, reject) =>
-      this.model.find(query).exec((err, items: any[]) => {
+  public getMany(query: FilterQuery<CLASS_TYPE>) {
+    return this.model.find(query).exec(); /*(err, items: any[]) => {
         if (err) {
           console.log("Error:", err);
           reject(err);
         } else {
-          resolve(items || null);
+          resolve(items || []);
         }
       })
-    );
+    );*/
   }
 }

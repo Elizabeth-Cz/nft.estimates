@@ -1,7 +1,9 @@
-import { Asset, AssetEventData, AssetEventsData } from "../entities/Asset";
+import { Asset } from "../entities/Asset";
 import { BaseRepository } from "./base.repository";
-import { AssetEvent } from "../entities/AssetEvent";
 import { FilterQuery } from "mongoose";
+import { AssetEventData } from "../sub-entities/AssetEventData";
+import { AssetEvent } from "../sub-entities/AssetEvent";
+import { AssetEventsData } from "../sub-entities/AssetEventsData";
 
 class AssetRepository extends BaseRepository<Asset, typeof Asset> {
   constructor() {

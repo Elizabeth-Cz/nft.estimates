@@ -4,18 +4,12 @@ import { getDetails } from "./getAssetDetails";
 import { assetConsumer } from "./modules/consumption/Asset.consumer";
 import { collectionConsumer } from "./modules/consumption/Collection.consumer";
 import { ConsumptionDataType } from "@skeksify/nfte-common/dist/entities/Consumption";
-import { connectToDb } from "@skeksify/nfte-common/dist/db/connect";
 import { eventsConsumer } from "./modules/consumption/Event.consumer";
-import { AssetEventTypes } from "@skeksify/nfte-common/dist/entities/AssetEvent";
+import { AssetEventTypes } from "@skeksify/nfte-common/dist/sub-entities/AssetEvent";
+import { collectionProcessor } from "./modules/processing/Collection.processor";
+import { dbAction, printIntro } from "./toolset/actions";
 
 dotenv.config();
-
-const printIntro = (action: string, type: string, params: string) =>
-  console.log(`
-
-### ACTION: ${action} ###
-### TYPE: ${type} ###
-### PARAMS: ${params} ###\n`);
 
 enum Actions {
   FETCH = "fetch",
@@ -24,18 +18,12 @@ enum Actions {
   PLAYGROUND = "playground",
 }
 
-const catchEx = (e: Error) => {
-  console.log("Caught Exception\n", e);
-  process.exit();
-};
-
-const dbAction = async (action: () => Promise<void>) => {
-  await connectToDb();
-  await action().catch(catchEx);
-  process.exit();
-};
-
-type ParameterOptions = "contract" | "token" | "contractSlug" | "eventType";
+type ParameterOptions =
+  | "contract"
+  | "token"
+  | "contractSlug"
+  | "eventType"
+  | "liveData";
 type TypeOptions = "asset" | "assets" | "collection" | "events";
 
 type Parameters = Record<ParameterOptions, string>;
@@ -50,23 +38,24 @@ const actionsMap: Record<
       dbAction(async () => await getDetails(contract, token));
     }
   },
-  [Actions.CONSUME]: (type, { contract, contractSlug, token, eventType }) => {
+  [Actions.CONSUME]: (
+    type,
+    { contract, contractSlug, token, eventType, liveData }
+  ) => {
     if (type === "assets") {
       console.log("Consuming Assets");
       dbAction(
         async () =>
-          await assetConsumer.consume(contract, ConsumptionDataType.ONETIME)
+          await assetConsumer.consume(
+            contract,
+            liveData ? ConsumptionDataType.LIVE : ConsumptionDataType.ONETIME,
+            token
+          )
       );
     }
     if (type === "collection") {
       console.log("Consuming Assets");
-      dbAction(
-        async () =>
-          await collectionConsumer.consume(
-            contractSlug,
-            ConsumptionDataType.ONETIME
-          )
-      );
+      dbAction(async () => await collectionConsumer.consume(contractSlug));
     }
     if (type === "events") {
       if (!eventType) {
@@ -83,7 +72,12 @@ const actionsMap: Record<
       );
     }
   },
-  [Actions.PROCESS]: () => {},
+  [Actions.PROCESS]: (type, { contract }) => {
+    if (type === "collection") {
+      console.log("Processing Collection");
+      dbAction(async () => await collectionProcessor.process(contract));
+    }
+  },
   [Actions.PLAYGROUND]: () => {
     // playground();
   },
@@ -91,10 +85,12 @@ const actionsMap: Record<
 const argsObj = minimist(process.argv.slice(2), {
   string: ["contract", "token"],
 });
+
 const {
   _: [action, type],
   ...rest
 } = argsObj;
+
 const selectedAction = actionsMap[action as Actions];
 
 if (!selectedAction) {

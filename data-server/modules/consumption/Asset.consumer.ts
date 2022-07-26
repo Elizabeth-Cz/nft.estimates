@@ -17,7 +17,8 @@ class AssetConsumer extends BaseConsumer {
 
   public async consume(
     contractAddress: string,
-    consumptionDataType: ConsumptionDataType
+    consumptionDataType: ConsumptionDataType,
+    tokenId?: string
   ) {
     const isLive = consumptionDataType === ConsumptionDataType.LIVE;
     consumptionManager.initCurrent({
@@ -26,7 +27,7 @@ class AssetConsumer extends BaseConsumer {
       consumptionDataType,
     });
     await this.fetchAllPages(
-      openSeaFetcher.buildAssetFetcher(contractAddress),
+      openSeaFetcher.buildAssetFetcher(contractAddress, tokenId),
       10
     );
 

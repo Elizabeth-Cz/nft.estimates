@@ -3,7 +3,7 @@ import { openSeaFetcher } from "@APIs/OpenSea/OpenSeaFetcher";
 import { logger } from "../../toolset/logger";
 import { consumptionManager } from "./consumptionManager";
 import { EntityType } from "@skeksify/nfte-common/dist/entities/Entity";
-import { AssetEventTypes } from "@skeksify/nfte-common/dist/entities/AssetEvent";
+import { AssetEventTypes } from "@skeksify/nfte-common/dist/sub-entities/AssetEvent";
 import { assetRepository } from "@skeksify/nfte-common/dist/repositories/Asset.repository";
 
 class EventConsumer extends BaseConsumer {

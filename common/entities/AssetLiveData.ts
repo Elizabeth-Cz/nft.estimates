@@ -19,6 +19,4 @@ export class AssetLiveData extends Entity {
   public lastSalePriceUSD?: number;
   @prop()
   public lastSaleDate?: string;
-  @prop()
-  public whatever?: string;
 }

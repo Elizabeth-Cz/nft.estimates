@@ -24,6 +24,7 @@ interface OpenSeaTrait {
 
 export interface OpenSeaAssetContract {
   address: string;
+  created_date: string;
 }
 
 interface OpenSeaAssetCollection {

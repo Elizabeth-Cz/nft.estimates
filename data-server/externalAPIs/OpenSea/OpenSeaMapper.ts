@@ -9,11 +9,12 @@ import { OpenSeaEvent } from "@APIs/OpenSea/OpenSea.event";
 import {
   AssetEvent,
   OpenSeaUserAccount,
-} from "@skeksify/nfte-common/dist/entities/AssetEvent";
+} from "@skeksify/nfte-common/dist/sub-entities/AssetEvent";
 import {
   OpenSeaAssetEventTypes,
   openSeaEventTypeToEventType,
 } from "@APIs/OpenSea/OpenSeaFetcher";
+import moment from "moment";
 
 const quintillion = Math.pow(10, 18);
 const getPrice = (price?: number | string) => (price ? +price : 0);
@@ -29,6 +30,7 @@ class OpenSeaMapper {
       collectionAddress: openSeaAsset.asset_contract?.address,
       collectionName: openSeaAsset.collection?.name,
       tokenId: openSeaAsset.token_id,
+      mintingDate: openSeaAsset.asset_contract?.created_date,
       imageUrl: openSeaAsset.image_url,
       traits: openSeaAsset.traits.map((trait) => ({
         name: trait.trait_type,
@@ -73,12 +75,13 @@ class OpenSeaMapper {
 
   public toEvent = (openSeaEvent: OpenSeaEvent): AssetEvent => {
     const eventType = openSeaEvent.event_type as OpenSeaAssetEventTypes;
+    const eventTime = +moment.utc(openSeaEvent.event_timestamp);
     return new AssetEvent({
       eventId: openSeaEvent.id,
       contractAddress: openSeaEvent.asset?.asset_contract?.address,
       tokenId: openSeaEvent.asset?.token_id,
       eventType: openSeaEventTypeToEventType[eventType],
-      eventTime: openSeaEvent.event_timestamp,
+      eventTime: eventTime,
       price: getBigPrice(openSeaEvent.total_price),
       quantity: openSeaEvent.quantity,
       usdPrice: openSeaEvent.payment_token?.usd_price,

@@ -1,6 +1,6 @@
 {
   "name": "@skeksify/nfte-common",
-  "version": "1.0.918",
+  "version": "1.0.940",
   "description": "NFTE Common Lib",
   "files": [
     "./dist/**"
@@ -11,17 +11,19 @@
     "test-package": "npm pack",
     "build-dist": "rm -rf dist && tsc",
     "publish-package": "npm publish --access public",
-    "deploy-package-patch": "npm run build-dist && npm version patch && npm run publish-package"
+    "ship-patch": "npm run build-dist && npm version patch && npm run publish-package"
   },
   "author": "skeksify",
   "license": "ISC",
   "repository": "git@github.com:skeksify/nft.estimates.git",
   "dependencies": {
     "@typegoose/typegoose": "^9.8.1",
+    "lodash": "^4.17.21",
     "moment": "^2.29.3",
     "typescript": "^4.6.4"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.182",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.0.0"
   }

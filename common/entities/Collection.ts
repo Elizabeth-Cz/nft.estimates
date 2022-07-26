@@ -1,8 +1,9 @@
 import { Entity } from "./Entity";
 import { prop } from "@typegoose/typegoose";
+import { CollectionCalculatedData } from "../sub-entities/CollectionCalculatedData";
 
 export class Collection extends Entity {
-  constructor(initializer: Partial<Collection>) {
+  constructor(initializer?: Partial<Collection>) {
     super();
     Object.assign(this, initializer);
   }
@@ -26,4 +27,8 @@ export class Collection extends Entity {
   twitterUsername?: string;
   @prop()
   instagramUsername?: string;
+  @prop()
+  supply?: number;
+  @prop({ type: () => CollectionCalculatedData })
+  calculatedData?: CollectionCalculatedData;
 }

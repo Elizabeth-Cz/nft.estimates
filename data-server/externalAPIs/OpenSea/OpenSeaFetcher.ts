@@ -5,7 +5,7 @@ import { OpenSeaPageFetcher } from "../../modules/consumption/base.consumer";
 import { consumptionManager } from "../../modules/consumption/consumptionManager";
 import { OpenSeaCollection } from "@APIs/OpenSea/OpenSea.collection";
 import { OpenSeaEvent } from "@APIs/OpenSea/OpenSea.event";
-import { AssetEventTypes } from "@skeksify/nfte-common/dist/entities/AssetEvent";
+import { AssetEventTypes } from "@skeksify/nfte-common/dist/sub-entities/AssetEvent";
 import _ from "lodash";
 
 export interface OpenSeaApiResponse {
@@ -74,11 +74,15 @@ class OpenSeaFetcher {
       );
   }
 
-  public buildAssetFetcher(contractAddress: string): OpenSeaPageFetcher {
+  public buildAssetFetcher(
+    contractAddress: string,
+    tokenId?: string
+  ): OpenSeaPageFetcher {
     return async (cursor) =>
       await this.fetchAny<OpenSeaApiResponse>("assets", {
         cursor,
         asset_contract_address: contractAddress,
+        token_ids: tokenId,
         limit: "50",
         order_direction: "asc",
         include_orders: "false",

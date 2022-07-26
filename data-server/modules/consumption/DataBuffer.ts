@@ -6,7 +6,7 @@ import { Asset } from "@skeksify/nfte-common/dist/entities/Asset";
 import { AssetLiveData } from "@skeksify/nfte-common/dist/entities/AssetLiveData";
 import { Collection } from "@skeksify/nfte-common/dist/entities/Collection";
 import { OpenSeaEvent } from "@APIs/OpenSea/OpenSea.event";
-import { AssetEvent } from "@skeksify/nfte-common/dist/entities/AssetEvent";
+import { AssetEvent } from "@skeksify/nfte-common/dist/sub-entities/AssetEvent";
 
 const chewChunksArray = <T>(chunks: T[][]): T[] =>
   _.flatten(chunks.reverse()).reverse();

@@ -1,4 +1,3 @@
-import { Entity } from "./Entity";
 import { prop } from "@typegoose/typegoose";
 
 export enum AssetEventTypes {
@@ -15,12 +14,12 @@ export class OpenSeaUserAccount {
   @prop()
   profileImageUrl?: string;
 
-  constructor(initializer: Partial<OpenSeaUserAccount>) {
+  constructor(initializer?: Partial<OpenSeaUserAccount>) {
     Object.assign(this, initializer);
   }
 }
 
-export class AssetEvent extends Entity {
+export class AssetEvent {
   @prop()
   eventId?: number;
   @prop()
@@ -33,7 +32,7 @@ export class AssetEvent extends Entity {
   })
   eventType?: AssetEventTypes;
   @prop()
-  eventTime?: string;
+  eventTime?: number;
   @prop()
   price?: number;
   @prop()
@@ -45,8 +44,7 @@ export class AssetEvent extends Entity {
   @prop()
   buyer?: OpenSeaUserAccount;
 
-  constructor(initializer: Partial<AssetEvent>) {
-    super();
+  constructor(initializer?: Partial<AssetEvent>) {
     Object.assign(this, initializer);
   }
 }
