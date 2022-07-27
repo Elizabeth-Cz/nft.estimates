@@ -11,6 +11,9 @@ import {
   CalculatedDataHistory,
   HistoryType,
 } from "@skeksify/nfte-common/dist/entities/CalculatedDataHistory";
+import { ChangingRank } from "@skeksify/nfte-common/dist/sub-entities/ChangingRank";
+
+type RankedFields = "lastPrice" | "salesSum" | "salesAmount";
 
 class CollectionProcessor extends BaseProcessor {
   private collectionCalculatedData: CollectionCalculatedData =
@@ -22,7 +25,8 @@ class CollectionProcessor extends BaseProcessor {
     const allAssets = await assetRepository.getMany({
       $and: [{ contractAddress }, { events: { $exists: true } }],
     });
-    allAssets.forEach((asset) => this.calculatePricesAndSales(asset));
+    this.calculateAssetPricesAndSales(allAssets);
+    this.calculateAssetRankings(allAssets);
     console.log(`Saving ${allAssets.length} documents`);
     await assetRepository.saveMany(allAssets);
     console.log("Updating Collection");
@@ -40,47 +44,68 @@ class CollectionProcessor extends BaseProcessor {
     console.log("Collection Processing Complete");
   }
 
-  private calculatePricesAndSales(asset: DocumentType<Asset>) {
-    const saleEvents = asset.events?.sales?.history || [];
-    const salesAmount = _.size(saleEvents);
-    const lastSalePrice = asset.liveData?.lastSalePrice;
-    this.collectionCalculatedData.accumulateDataFromAsset(asset);
-    if (salesAmount !== asset.calculatedData?.salesAmount?.selfValue?.value) {
-      const calculatedAssetData =
-        asset.calculatedData || new AssetCalculatedData();
+  private calculateAssetPricesAndSales(assets: DocumentType<Asset>[]) {
+    assets.forEach((asset) => {
+      const saleEvents = asset.events?.sales?.history || [];
+      const salesAmount = _.size(saleEvents);
+      const lastSalePrice = asset.liveData?.lastSalePrice;
+      this.collectionCalculatedData.accumulateDataFromAsset(asset);
+      if (salesAmount !== asset.calculatedData?.salesAmount?.selfValue?.value) {
+        const calculatedAssetData =
+          asset.calculatedData || new AssetCalculatedData();
 
-      calculatedAssetData.lastPrice = this.buildRankedChangingNumber(
-        calculatedAssetData.lastPrice,
-        this.buildChangingNumber(
-          calculatedAssetData.lastPrice?.selfValue,
-          lastSalePrice,
-          calculatedAssetData.lastPrice?.selfValue?.value
-        )
-      );
+        calculatedAssetData.lastPrice = this.buildRankedChangingNumber(
+          calculatedAssetData.lastPrice,
+          this.buildChangingNumber(
+            calculatedAssetData.lastPrice?.selfValue,
+            lastSalePrice,
+            calculatedAssetData.lastPrice?.selfValue?.value
+          )
+        );
 
-      calculatedAssetData.salesAmount = this.buildRankedChangingNumber(
-        calculatedAssetData.salesAmount,
-        this.buildChangingNumber(
-          calculatedAssetData.salesAmount?.selfValue,
-          salesAmount,
-          calculatedAssetData.salesAmount?.selfValue?.value
-        )
-      );
+        calculatedAssetData.salesAmount = this.buildRankedChangingNumber(
+          calculatedAssetData.salesAmount,
+          this.buildChangingNumber(
+            calculatedAssetData.salesAmount?.selfValue,
+            salesAmount,
+            calculatedAssetData.salesAmount?.selfValue?.value
+          )
+        );
 
-      calculatedAssetData.salesSum = this.buildRankedChangingNumber(
-        calculatedAssetData.salesSum,
-        this.buildChangingNumber(
-          calculatedAssetData.salesSum?.selfValue,
-          _.sumBy(saleEvents, (sale) => sale.price || 0),
-          calculatedAssetData.salesSum?.selfValue?.value
-        )
-      );
+        calculatedAssetData.salesSum = this.buildRankedChangingNumber(
+          calculatedAssetData.salesSum,
+          this.buildChangingNumber(
+            calculatedAssetData.salesSum?.selfValue,
+            _.sumBy(saleEvents, (sale) => sale.price || 0),
+            calculatedAssetData.salesSum?.selfValue?.value
+          )
+        );
 
-      calculatedAssetData.snapshotTime = Date.now();
+        calculatedAssetData.snapshotTime = Date.now();
 
-      asset.calculatedData = calculatedAssetData;
-      asset.markModified("calculatedData");
-    }
+        asset.calculatedData = calculatedAssetData;
+        asset.markModified("calculatedData");
+      }
+    });
+  }
+
+  private calculateAssetRankings(assets: DocumentType<Asset>[]) {
+    this.rankByValue(assets, "lastPrice");
+    this.rankByValue(assets, "salesSum");
+    this.rankByValue(assets, "salesAmount");
+  }
+
+  private rankByValue(assets: DocumentType<Asset>[], field: RankedFields) {
+    _.sortBy(assets, (asset) => asset.calculatedData?.[field]?.selfValue?.value)
+      .reverse()
+      .forEach((asset, index) => {
+        const changingRank = asset.calculatedData?.[field];
+        if (changingRank) {
+          changingRank.collectionRank = new ChangingRank({
+            value: index + 1,
+          });
+        }
+      });
   }
 }
 
