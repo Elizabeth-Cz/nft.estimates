@@ -4,7 +4,7 @@ import { Link } from "@UI/Link/Link";
 import { Colors } from "@RESOURCES/colors";
 import { Pages } from "../../../pages/pages.types";
 import { Common } from "@RESOURCES/translations/english/common";
-import { Routes } from "@skeksify/nfte-common/routes";
+import { Routes } from "@skeksify/nfte-common/dist/routes";
 import { useQueryField } from "../../../hooks/useQuery";
 import { useRouter } from "next/router";
 import { View } from "@UI/View/View";

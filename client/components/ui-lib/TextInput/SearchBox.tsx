@@ -15,7 +15,7 @@ import { MagnifyingGlass } from "@ICONS/icons";
 import { RowView } from "@UI/View/RowView";
 import { assetsChamber } from "../../../data-hall/assetsChamber";
 import { asyncUseEffect } from "../../../hooks/asyncUseEffect";
-import { Asset } from "@skeksify/nfte-common/entities/Asset";
+import { Asset } from "@skeksify/nfte-common/dist/entities/Asset";
 import { View } from "@UI/View/View";
 import { Picture } from "@UI/Picture/picture";
 import { buildAssetURL } from "../../../app-logic/navigation";

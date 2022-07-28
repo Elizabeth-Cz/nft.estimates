@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { buildColumn, Table } from "@UI/Table/Table";
-import {Trait} from "@skeksify/nfte-common/entities/Asset";
+import { Trait } from "@skeksify/nfte-common/dist/entities/Asset";
 
 interface Props {
   traits?: Trait[];

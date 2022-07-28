@@ -16,7 +16,7 @@ import { GeneralDetailsTable } from "@COMPONENTS/asset/generalDetailsTable";
 import { makeCalendarDateTime } from "../../app-logic/datetime";
 import { Grid } from "@UI/Grid/Grid";
 import { useScreenSize } from "../../hooks/useMediaQuery";
-import { Asset } from "@skeksify/nfte-common/entities/Asset";
+import { Asset } from "@skeksify/nfte-common/dist/entities/Asset";
 import { GridContainer } from "@UI/Grid/GridContainer";
 
 const forSaleStyle: CSSProperties = {

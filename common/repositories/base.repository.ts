@@ -4,7 +4,7 @@ import {
   ReturnModelType,
 } from "@typegoose/typegoose";
 import { BeAnObject } from "@typegoose/typegoose/lib/types";
-import { Entity } from "../entities/entity";
+import { Entity } from "../entities/Entity";
 import moment from "moment";
 import { DateFormat } from "../toolset/dateTime";
 import { FilterQuery } from "mongoose";

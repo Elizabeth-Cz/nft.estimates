@@ -1,8 +1,11 @@
 FROM node:16
+WORKDIR /Users/benharan/Code/nft.estimates/client
 
-WORKDIR /Users/benharan/Code/nft/client
-COPY ./package*.json ./
+COPY .npmrc .npmrc
+COPY package.json package.json
 RUN npm install --legacy-peer-deps
+RUN rm -f .npmrc
+
 # If you are building your code for production
 # RUN npm ci --only=production
 

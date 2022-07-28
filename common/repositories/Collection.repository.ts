@@ -1,5 +1,5 @@
 import { BaseRepository } from "./base.repository";
-import { Collection } from "../entities/collection";
+import { Collection } from "../entities/Collection";
 
 class CollectionRepository extends BaseRepository<
   Collection,

@@ -2,11 +2,11 @@ import type { NextPage } from "next";
 import { useState } from "react";
 import { asyncUseEffect } from "../../hooks/asyncUseEffect";
 import { assetsChamber } from "../../data-hall/assetsChamber";
-import { Asset } from "@skeksify/nfte-common/entities/Asset";
+import { Asset } from "@skeksify/nfte-common/dist/entities/Asset";
 import { useQuery } from "../../hooks/useQuery";
 import { AssetOverview } from "@COMPONENTS/asset/assetOverview";
 import { View } from "@UI/View/View";
-import { Collection } from "@skeksify/nfte-common/entities/Collection";
+import { Collection } from "@skeksify/nfte-common/dist/entities/Collection";
 import { collectionsChamber } from "../../data-hall/collectionChamber";
 
 const AssetPage: NextPage = () => {

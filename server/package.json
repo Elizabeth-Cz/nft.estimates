@@ -13,7 +13,7 @@
   "author": "Estimator",
   "license": "ISC",
   "dependencies": {
-    "@skeksify/nfte-common": "^1.0.940",
+    "@skeksify/nfte-common": "^1.0.941",
     "@typegoose/typegoose": "^9.8.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",

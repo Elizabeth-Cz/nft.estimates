@@ -1,7 +1,12 @@
-import { Entity } from "@skeksify/nfte-common/entities/entity";
+import { Entity } from "@skeksify/nfte-common/dist/entities/entity";
 import axios from "axios";
-import { Routes } from "@skeksify/nfte-common/routes";
+import { Routes } from "@skeksify/nfte-common/dist/routes";
 import _ from "lodash";
+
+const domain =
+  typeof location !== "undefined" && location.hostname === "localhost"
+    ? "localhost"
+    : "3.22.181.242";
 
 type Query = Record<string, string>;
 
@@ -19,7 +24,7 @@ export class Chamber<ENTITY_TYPE extends Entity> {
 
   async get(query: Query): Promise<Response<ENTITY_TYPE[]>> {
     const { data } = await axios.get<Response<ENTITY_TYPE[]>>(
-      "//localhost:9000" + this.rootUrl,
+      `//${domain}:9000${this.rootUrl}`,
       {
         params: query,
       }
