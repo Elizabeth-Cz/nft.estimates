@@ -70,6 +70,7 @@ class OpenSeaMapper {
       telegramUrl: openSeaCollection.telegram_url,
       twitterUsername: openSeaCollection.twitter_username,
       instagramUsername: openSeaCollection.instagram_username,
+      supply: openSeaCollection.stats?.total_supply,
     });
   };
 

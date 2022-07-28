@@ -5,6 +5,10 @@ import { Colors } from "@RESOURCES/colors";
 import { useCustomStyles } from "../../../hooks/useCustomStyles";
 import _ from "lodash";
 
+export interface TextFormatter {
+  (data: string | number): string;
+}
+
 export interface TextProps extends CSSProperties {
   DEBUG?: boolean;
   subtext?: boolean;
@@ -18,6 +22,7 @@ export interface TextProps extends CSSProperties {
   size32?: boolean;
   colorEnum?: Colors;
   longText?: boolean;
+  formatter?: TextFormatter;
 }
 
 const defaultStyle: CSSProperties = {
@@ -52,6 +57,7 @@ export const Text: FCC<TextProps> & TextPermutations = ({
   size32,
   colorEnum,
   longText,
+  formatter,
   children,
   ...rest
 }) => {
@@ -71,7 +77,9 @@ export const Text: FCC<TextProps> & TextPermutations = ({
       variant={subtext ? "subtitle1" : "body1"}
       style={{ ...defaultStyle, ...rest, ...overrideStyle }}
     >
-      {children}
+      {formatter && (_.isString(children) || _.isNumber(children))
+        ? formatter(children)
+        : children}
     </Typography>
   );
 };

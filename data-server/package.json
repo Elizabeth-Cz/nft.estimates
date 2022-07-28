@@ -7,7 +7,7 @@
     "fetchAsset": "ts-node data-server-main.ts fetch asset --contract=0xd4e4078ca3495de5b1d4db434bebc5a986197782 --token=114",
     "consumeOtherdeedAssets": "ts-node data-server-main.ts consume assets --contract=0x34d85c9cdeb23fa97cb08333b511ac86e1c4e258",
     "consumeBoredApeAssets": "ts-node data-server-main.ts consume assets --contract=0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
-    "consumeBoredApeAsset3946": "ts-node data-server-main.ts consume assets --contract=0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d --token=3946",
+    "consumeBoredApeAsset13": "ts-node data-server-main.ts consume assets --contract=0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d --token=13",
     "consumeCollection": "ts-node data-server-main.ts consume collection --contractSlug=boredapeyachtclub",
     "consumeEvents": "ts-node data-server-main.ts consume events --contract=0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d --token=3946 --eventType=SALE",
     "processBoredApeCollection": "ts-node data-server-main.ts process collection --contract=0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",

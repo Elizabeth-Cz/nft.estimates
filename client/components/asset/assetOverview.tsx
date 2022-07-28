@@ -15,9 +15,12 @@ import { TraitsTable } from "@COMPONENTS/asset/traitsTable";
 import { GeneralDetailsTable } from "@COMPONENTS/asset/generalDetailsTable";
 import { makeCalendarDateTime } from "../../app-logic/datetime";
 import { Grid } from "@UI/Grid/Grid";
-import { useScreenSize } from "../../hooks/useMediaQuery";
 import { Asset } from "@skeksify/nfte-common/dist/entities/Asset";
 import { GridContainer } from "@UI/Grid/GridContainer";
+import { Common } from "@RESOURCES/translations/english/common";
+import { Collection } from "@skeksify/nfte-common/dist/entities/Collection";
+import { RankingsTable } from "@COMPONENTS/asset/rankingsTable";
+import { HistoryTable } from "@COMPONENTS/asset/historyTable";
 
 const forSaleStyle: CSSProperties = {
   width: 60,
@@ -63,7 +66,7 @@ const summaryStyle: CSSProperties = {
 
 interface Props {
   asset: Asset;
-  collection: Asset;
+  collection: Collection;
 }
 
 const updateTitle = (newVal: string) => {
@@ -72,12 +75,12 @@ const updateTitle = (newVal: string) => {
   }
 };
 export const AssetOverview: FC<Props> = ({ asset, collection }: Props) => {
-  const size = useScreenSize();
-  updateTitle(size.toUpperCase());
+  // const size = useScreenSize();
+  // updateTitle(size.toUpperCase());
   return (
     <View centered>
       <View maxWidth={maxPageWidth} marginRight={30} marginLeft={30}>
-        <View marginBottom={50} relative>
+        <View marginBottom={20} relative>
           <FlexView tag={"HERE"}>
             <Breadcrumbs page={Pages.Asset} />
             <Grid container columnSpacing={2} rowSpacing={2}>
@@ -130,22 +133,22 @@ export const AssetOverview: FC<Props> = ({ asset, collection }: Props) => {
                   <FinancialOverview
                     data={[
                       {
-                        label: "Est. Value",
-                        value: "$2.5M",
+                        label: Common.EstValue,
+                        value: "-",
                         IconSrc: TwoCoins,
                       },
                       {
-                        label: "Rarity Factor",
-                        value: "7.3",
+                        label: Common.RarityFactor,
+                        value: "-",
                         IconSrc: TwoCoins,
                       },
                       {
-                        label: "Last Sale Price",
+                        label: Common.LastSalePrice,
                         value: asset.liveData?.lastSalePrice,
                         IconSrc: TwoCoins,
                       },
                       {
-                        label: "Last Sale Date",
+                        label: Common.LastSaleDate,
                         value: asset.liveData?.lastSaleDate
                           ? makeCalendarDateTime(asset.liveData.lastSaleDate)
                           : "",
@@ -157,25 +160,26 @@ export const AssetOverview: FC<Props> = ({ asset, collection }: Props) => {
                     miniMode
                     data={[
                       {
-                        label: "Est. Value",
-                        value: "$2.5M",
+                        label: Common.CollectionValue,
+                        value:
+                          collection.calculatedData?.totalValue?.value + " ETH",
                         IconSrc: TwoCoins,
                       },
                       {
-                        label: "Rarity Factor",
-                        value: "7.3",
+                        label: Common.CollectionVolume24h,
+                        value:
+                          collection.calculatedData?.volume24h?.value + " ETH",
+
                         IconSrc: TwoCoins,
                       },
                       {
-                        label: "Last Sale Price",
-                        value: asset.liveData?.lastSalePrice,
+                        label: Common.AssetVolume1y,
+                        value: "?",
                         IconSrc: TwoCoins,
                       },
                       {
-                        label: "Last Sale Date",
-                        value: asset.liveData?.lastSaleDate
-                          ? makeCalendarDateTime(asset.liveData.lastSaleDate)
-                          : "",
+                        label: Common.CollectionSupply,
+                        value: collection.supply,
                         IconSrc: TwoCoins,
                         size: "small",
                       },
@@ -186,18 +190,30 @@ export const AssetOverview: FC<Props> = ({ asset, collection }: Props) => {
             </Grid>
           </FlexView>
         </View>
-        <Paper alignItems={"start"}>
-          <Text size32 bold colorEnum={Colors.Blackish}>
-            First Main Header
-          </Text>
+        <Paper alignItems={"start"} paddingTop={10}>
           <View>
             <Tabs
               views={[
+                [
+                  "Traits",
+                  () => (
+                    <TraitsTable
+                      traits={asset.traits}
+                      supply={collection.supply || 1}
+                    />
+                  ),
+                ],
+                [
+                  "Charts",
+                  () => (
+                    <View centered marginT>
+                      Only thing currently missing from Tabs!
+                    </View>
+                  ),
+                ],
+                ["Ranking", () => <RankingsTable asset={asset} />],
+                ["History", () => <HistoryTable asset={asset} />],
                 ["Details", () => <GeneralDetailsTable asset={asset} />],
-                ["Traits", () => <TraitsTable traits={asset.traits} />],
-                ["Charts", () => <View centered>Graph Charts</View>],
-                ["Ranking", () => <View centered>3</View>],
-                ["History", () => <View centered>4</View>],
               ]}
             />
           </View>

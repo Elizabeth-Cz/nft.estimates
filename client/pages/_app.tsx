@@ -16,7 +16,7 @@ function NFTEApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeScope>
       <Head>
-        {/*<title>{Common.NftEstimates}</title>*/}
+        <title>{Common.NftEstimates}</title>
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <meta name="description" content={Common.NftEstimates} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />

@@ -45,6 +45,4 @@ export class Trait {
   dataType?: null | "number";
   @prop()
   sharersCount?: number;
-  @prop()
-  rarity?: number;
 }

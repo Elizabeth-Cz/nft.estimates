@@ -8,17 +8,20 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { Text } from "@UI/Text/Text";
+import { Text, TextFormatter } from "@UI/Text/Text";
 import { Colors } from "@RESOURCES/colors";
 import { Price } from "@UI/Financial/Price";
 import _ from "lodash";
 import { ChangeDir, ChangePercent } from "@UI/Financial/ChangePercent";
 import { Property } from "csstype";
+import moment from "moment";
+import { DateFormat } from "@skeksify/nfte-common/dist/toolset/dateTime";
 import TextAlign = Property.TextAlign;
 
 interface CellComponentProps {
   data: CellData;
   textAlign?: TextAlign;
+  formatter?: TextFormatter;
 }
 
 interface Column {
@@ -26,7 +29,7 @@ interface Column {
   textAlign?: TextAlign;
   CellComponent?: FC<CellComponentProps>;
   cellStyle?: CSSProperties;
-  formatter?: (data: string | number) => string;
+  formatter?: TextFormatter;
 }
 
 type CellData = {
@@ -37,15 +40,21 @@ type CellData = {
 
 interface Props {
   columns: Column[] | null;
-  data: CellData[][];
+  data?: CellData[][];
 }
 
 const DefaultCell: FC<CellComponentProps> = ({
   data,
   textAlign,
+  formatter,
 }: CellComponentProps) => {
   return data.value ? (
-    <Text size14 colorEnum={Colors.BlueDark2} textAlign={textAlign}>
+    <Text
+      size14
+      colorEnum={Colors.BlueDark2}
+      textAlign={textAlign}
+      formatter={formatter}
+    >
       {data.value}
     </Text>
   ) : (
@@ -53,7 +62,16 @@ const DefaultCell: FC<CellComponentProps> = ({
   );
 };
 
-type ColumnTypes = "numeric" | "price" | "changePercent" | "text" | "percent";
+type ColumnTypes =
+  | "numeric"
+  | "price"
+  | "changePercent"
+  | "text"
+  | "percent"
+  | "rank"
+  | "date"
+  | "dateTime";
+
 const defaultColumnDefinition: Column = {
   label: "",
   textAlign: "start",
@@ -88,6 +106,21 @@ export const buildColumn: Record<ColumnTypes, (label?: string) => Column> = {
     textAlign: "center",
     formatter: (data) => `${data}%`,
   }),
+  rank: (label) => ({
+    label,
+    textAlign: "center",
+    formatter: (data) => `#${data}`,
+  }),
+  date: (label) => ({
+    label,
+    textAlign: "center",
+    formatter: (data) => moment(data).format(DateFormat.DATE_LOCAL),
+  }),
+  dateTime: (label) => ({
+    label,
+    textAlign: "center",
+    formatter: (data) => moment(data).format(DateFormat.DATE_TIME_LOCAL),
+  }),
 };
 
 export const Table: FC<Props> = ({ columns, data }: Props) => {
@@ -97,10 +130,15 @@ export const Table: FC<Props> = ({ columns, data }: Props) => {
         {columns && (
           <TableHead>
             <TableRow>
-              {columns.map(({ label }, index) => (
+              {columns.map(({ label, textAlign }, index) => (
                 <TableCell align={index ? "right" : undefined} key={index}>
                   {label && (
-                    <Text colorEnum={Colors.BlueDark2} fontWeight={600} size12>
+                    <Text
+                      colorEnum={Colors.BlueDark2}
+                      fontWeight={600}
+                      size12
+                      textAlign={textAlign}
+                    >
                       {label}
                     </Text>
                   )}
@@ -110,21 +148,27 @@ export const Table: FC<Props> = ({ columns, data }: Props) => {
           </TableHead>
         )}
         <TableBody>
-          {data.map((row, rowIndex) => (
+          {data?.map((row, rowIndex) => (
             <TableRow
               key={rowIndex}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               {row.map((cellData, cellIndex) => {
-                const { CellComponent, textAlign, cellStyle } = columns
-                  ? columns[cellIndex]
-                  : defaultColumnDefinition;
+                if (columns && !columns[cellIndex]) {
+                  throw new Error("Undefined column index");
+                }
+                const { CellComponent, textAlign, cellStyle, formatter } =
+                  columns ? columns[cellIndex] : defaultColumnDefinition;
                 return (
                   <TableCell style={cellStyle || {}} key={cellIndex}>
                     {CellComponent ? (
-                      <CellComponent data={cellData} />
+                      <CellComponent data={cellData} formatter={formatter} />
                     ) : (
-                      <DefaultCell data={cellData} textAlign={textAlign} />
+                      <DefaultCell
+                        data={cellData}
+                        textAlign={textAlign}
+                        formatter={formatter}
+                      />
                     )}
                   </TableCell>
                 );
