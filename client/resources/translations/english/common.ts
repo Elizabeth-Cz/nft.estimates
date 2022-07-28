@@ -41,4 +41,8 @@ export const Common = {
   Bid: "Bid",
   Minted: "Minted",
   NO_DATA_SIGN: " - ",
+  Traits: "Traits",
+  Rankings: "Rankings",
+  History: "History",
+  Details: "Details",
 };

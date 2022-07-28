@@ -12,6 +12,7 @@ import {
   HistoryType,
 } from "@skeksify/nfte-common/dist/entities/CalculatedDataHistory";
 import { ChangingRank } from "@skeksify/nfte-common/dist/sub-entities/ChangingRank";
+import { logger } from "../../toolset/logger";
 
 type RankedFields = "lastPrice" | "salesSum" | "salesAmount";
 
@@ -20,6 +21,7 @@ class CollectionProcessor extends BaseProcessor {
     new CollectionCalculatedData();
 
   public async process(contractAddress: string) {
+    logger.start("Process Collection");
     this.collectionCalculatedData = new CollectionCalculatedData();
     console.log("Processing", contractAddress);
     const allAssets = await assetRepository.getMany({
@@ -41,7 +43,7 @@ class CollectionProcessor extends BaseProcessor {
         collectionData: this.collectionCalculatedData,
       })
     );
-    console.log("Collection Processing Complete");
+    logger.finish(`Total assets processed: ${allAssets.length}`);
   }
 
   private calculateAssetPricesAndSales(assets: DocumentType<Asset>[]) {

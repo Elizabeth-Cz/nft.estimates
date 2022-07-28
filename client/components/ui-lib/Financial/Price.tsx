@@ -6,7 +6,8 @@ interface Props extends TextProps {
   amount: number;
 }
 
-const currency = "$";
+const $currency = "$";
+const ETHcurrency = "ETH";
 
 export const Price: FC<Props> = ({ amount, ...textProps }: Props) => {
   const [integer, fraction] = amount.toString().split(".");
@@ -17,12 +18,8 @@ export const Price: FC<Props> = ({ amount, ...textProps }: Props) => {
     .reverse()
     .join("");
   return (
-    <Text
-      textAlign={"end"}
-      size14
-      {...textProps}
-    >{`${currency}${formattedAmount}${
+    <Text textAlign={"end"} size14 {...textProps}>{`${formattedAmount}${
       fraction ? `.${fraction}` : ".00"
-    }`}</Text>
+    }${ETHcurrency}`}</Text>
   );
 };

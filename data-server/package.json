@@ -9,7 +9,7 @@
     "consumeBoredApeAssets": "ts-node data-server-main.ts consume assets --contract=0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
     "consumeBoredApeAsset13": "ts-node data-server-main.ts consume assets --contract=0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d --token=13",
     "consumeCollection": "ts-node data-server-main.ts consume collection --contractSlug=boredapeyachtclub",
-    "consumeEvents": "ts-node data-server-main.ts consume events --contract=0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d --token=3946 --eventType=SALE",
+    "consumeEvents": "ts-node data-server-main.ts consume events --contract=0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d --eventType=SALE",
     "processBoredApeCollection": "ts-node data-server-main.ts process collection --contract=0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
     "playground": "ts-node data-server-main.ts playground",
     "update-common": "npm update @skeksify/nfte-common"

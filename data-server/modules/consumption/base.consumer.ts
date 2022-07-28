@@ -25,7 +25,7 @@ export abstract class BaseConsumer {
 
   protected async fetchAllPages(
     fetchPage: OpenSeaPageFetcher,
-    pagesLimit: number = 5
+    pagesLimit: number = Infinity
   ): Promise<void> {
     this.pingThrottler.init();
     this.currentPageNumber = 0;

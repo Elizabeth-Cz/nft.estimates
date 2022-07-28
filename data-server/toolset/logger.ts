@@ -15,6 +15,10 @@ class Logger {
     console.log(`\n${formatTime()}${label}`);
   }
 
+  public log(label: string) {
+    console.log(`\n${formatTime()}${label}`);
+  }
+
   public finish(additionalInfo?: string) {
     console.log(
       `${formatTime()}Done in ${formatSeconds(Date.now() - this.startedAt)} ${

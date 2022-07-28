@@ -5,6 +5,10 @@ import { consumptionManager } from "./consumptionManager";
 import { EntityType } from "@skeksify/nfte-common/dist/entities/Entity";
 import { AssetEventTypes } from "@skeksify/nfte-common/dist/sub-entities/AssetEvent";
 import { assetRepository } from "@skeksify/nfte-common/dist/repositories/Asset.repository";
+import { syncForEach } from "@skeksify/nfte-common/dist/toolset/iterators";
+import { Asset } from "@skeksify/nfte-common/dist/entities/Asset";
+import _ from "lodash";
+import { FilterQuery } from "mongoose";
 
 class EventConsumer extends BaseConsumer {
   constructor() {
@@ -16,62 +20,67 @@ class EventConsumer extends BaseConsumer {
     contractAddress: string,
     tokenId?: string
   ) {
-    const now = Date.now();
+    logger.start("Events - Data Consumption");
     consumptionManager.initCurrent({
       contractAddressParam: contractAddress,
       targetsType: EntityType.EVENT,
-      tokenIdParam: tokenId,
+      tokenIdParam: tokenId || "ALL",
     });
+    let totalEventsConsumed = 0;
+    const consumedTokenIds: string[] = [];
 
-    const fromTimestamp = await this.getLastConsumption(
+    const query: FilterQuery<Asset> = {
       contractAddress,
-      tokenId || "___temporary___",
-      eventType
-    );
+    };
+    if (tokenId) {
+      query.tokenId = tokenId;
+    }
+    const targetAssets = await assetRepository.getMany(query);
 
-    await this.fetchAllPages(
-      openSeaFetcher.buildEventFetcher(
-        eventType,
-        fromTimestamp,
-        contractAddress,
-        tokenId
-      ),
-      10
-    );
+    await syncForEach(targetAssets, async (asset) => {
+      const now = Date.now();
+      logger.log(`Fetching #${asset.tokenId}'s events`);
+      const fromTimestamp = this.getLastConsumption(asset, eventType);
 
-    this.dataBuffer.chewEvents();
+      await this.fetchAllPages(
+        openSeaFetcher.buildEventFetcher(
+          eventType,
+          fromTimestamp,
+          contractAddress,
+          asset.tokenId
+        )
+      );
 
-    logger.start("Events - Data Consumption");
-    const assetEvents = this.dataBuffer.generateEvents();
+      this.dataBuffer.chewEvents();
 
-    await assetRepository.addEvents(
-      {
-        tokenId,
-        collectionAddress: contractAddress,
-      },
-      assetEvents,
-      now
-    );
-    logger.finish(`${assetEvents.length} items`);
-    consumptionManager.addConsumptionCount(assetEvents.length);
+      const assetEvents = this.dataBuffer.generateEvents();
+
+      await assetRepository.addEvents(
+        {
+          tokenId: asset.tokenId,
+          collectionAddress: contractAddress,
+        },
+        assetEvents,
+        now
+      );
+      totalEventsConsumed += _.size(assetEvents);
+      console.log("Fetched ", assetEvents.length, " items on ", fromTimestamp);
+      asset.tokenId && consumedTokenIds.push(asset.tokenId);
+      this.dataBuffer.dropEvents();
+    });
+    logger.finish(`Total Events consumed: ${totalEventsConsumed}`);
+    console.log("CONSUMED TOKEN IDS");
+    console.log(consumedTokenIds.join("-"));
+    consumptionManager.addConsumptionCount(totalEventsConsumed);
     await consumptionManager.finalizeAndSave();
   }
 
-  private async getLastConsumption(
-    contractAddress: string,
-    tokenId: string,
-    eventType: AssetEventTypes
-  ): Promise<number> {
-    const targetAsset = await assetRepository.getAsset(
-      contractAddress,
-      tokenId || ""
-    );
-
-    if (targetAsset) {
+  private getLastConsumption(asset: Asset, eventType: AssetEventTypes): number {
+    if (asset) {
       if (eventType === AssetEventTypes.SALE) {
-        return targetAsset.events?.sales?.lastConsumption || 0;
+        return asset.events?.sales?.lastConsumption || 0;
       } else if (eventType === AssetEventTypes.BID) {
-        return targetAsset.events?.bids?.lastConsumption || 0;
+        return asset.events?.bids?.lastConsumption || 0;
       }
     } else {
       throw new Error("Asset not found - Can't consume events");

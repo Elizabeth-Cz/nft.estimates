@@ -1,7 +1,6 @@
 import React, { CSSProperties, FC } from "react";
 import { View } from "@UI/View/View";
 import { FlexView } from "@UI/View/FlexView";
-import { Tabs } from "@UI/Tabs/Tabs";
 import { Text } from "@UI/Text/Text";
 import { Paper } from "@UI/Paper/Paper";
 import { Colors } from "@RESOURCES/colors";
@@ -21,6 +20,7 @@ import { Common } from "@RESOURCES/translations/english/common";
 import { Collection } from "@skeksify/nfte-common/dist/entities/Collection";
 import { RankingsTable } from "@COMPONENTS/asset/rankingsTable";
 import { HistoryTable } from "@COMPONENTS/asset/historyTable";
+import { Tabs } from "@UI/Tabs/Tabs";
 
 const forSaleStyle: CSSProperties = {
   width: 60,
@@ -195,7 +195,7 @@ export const AssetOverview: FC<Props> = ({ asset, collection }: Props) => {
             <Tabs
               views={[
                 [
-                  "Traits",
+                  Common.Traits,
                   () => (
                     <TraitsTable
                       traits={asset.traits}
@@ -203,17 +203,9 @@ export const AssetOverview: FC<Props> = ({ asset, collection }: Props) => {
                     />
                   ),
                 ],
-                [
-                  "Charts",
-                  () => (
-                    <View centered marginT>
-                      Only thing currently missing from Tabs!
-                    </View>
-                  ),
-                ],
-                ["Ranking", () => <RankingsTable asset={asset} />],
-                ["History", () => <HistoryTable asset={asset} />],
-                ["Details", () => <GeneralDetailsTable asset={asset} />],
+                [Common.Rankings, () => <RankingsTable asset={asset} />],
+                [Common.History, () => <HistoryTable asset={asset} />],
+                [Common.Details, () => <GeneralDetailsTable asset={asset} />],
               ]}
             />
           </View>

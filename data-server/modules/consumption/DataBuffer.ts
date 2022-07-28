@@ -55,4 +55,9 @@ export class DataBuffer {
   public chewEvents() {
     this.chewedEvents = chewChunksArray(this.rawEventChunks);
   }
+
+  public dropEvents() {
+    this.chewedEvents = [];
+    this.rawEventChunks = [];
+  }
 }
