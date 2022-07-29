@@ -5,6 +5,7 @@ import { useCustomStyles } from "../../../hooks/useCustomStyles";
 interface Props extends ViewProps {
   src: string;
   imageBorderRadius?: number;
+  imageMaxHeight?: number;
 }
 
 const defaultImageStyling: CSSProperties = {
@@ -16,10 +17,12 @@ const defaultImageStyling: CSSProperties = {
 export const Picture: FC<Props> = ({
   src,
   imageBorderRadius = 0,
+  imageMaxHeight,
   ...styleProps
 }: Props) => {
   const imageStyleOverrides = useCustomStyles([
     [!!imageBorderRadius, { borderRadius: imageBorderRadius }],
+    [!!imageMaxHeight, { maxHeight: imageMaxHeight }],
   ]);
   return (
     <View {...styleProps}>

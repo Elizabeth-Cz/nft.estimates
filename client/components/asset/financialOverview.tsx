@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { Grid, GridSizes } from "@UI/Grid/Grid";
 import { IconBox } from "@UI/Box/IconBox";
 import { IconComponent } from "@UI/Icon/Icon";
+import { Common } from "@RESOURCES/translations/english/common";
 
 interface Datum {
   label: string;
@@ -13,6 +14,7 @@ interface Datum {
 interface Props {
   data: [Datum, Datum, Datum, Datum];
   miniMode?: boolean;
+  gridSizes?: GridSizes;
 }
 
 const normalSizes: GridSizes = {
@@ -22,26 +24,26 @@ const normalSizes: GridSizes = {
   lg: 6,
 };
 
-const miniSizes: GridSizes = {
-  xs: 6,
-  sm: 6,
-  md: 3,
-};
-
-export const FinancialOverview: FC<Props> = ({ data, miniMode }: Props) => {
+export const FinancialOverview: FC<Props> = ({
+  data,
+  miniMode,
+  gridSizes = normalSizes,
+}: Props) => {
   return (
     <>
-      {data.map(({ label, value = "-", IconSrc, size }, index) => (
-        <Grid {...(miniMode ? miniSizes : normalSizes)} item key={index}>
-          <IconBox.Light
-            upperText={label}
-            lowerText={value}
-            IconSrc={IconSrc}
-            miniMode={miniMode}
-            smallText={size === "small"}
-          />
-        </Grid>
-      ))}
+      {data.map(
+        ({ label, value = Common.NO_DATA_SIGN, IconSrc, size }, index) => (
+          <Grid {...gridSizes} item key={index}>
+            <IconBox.Light
+              upperText={label}
+              lowerText={value}
+              IconSrc={IconSrc}
+              miniMode={miniMode}
+              smallText={size === "small"}
+            />
+          </Grid>
+        )
+      )}
     </>
   );
 };

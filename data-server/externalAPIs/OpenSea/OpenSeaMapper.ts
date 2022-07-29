@@ -32,6 +32,7 @@ class OpenSeaMapper {
       tokenId: openSeaAsset.token_id,
       mintingDate: openSeaAsset.asset_contract?.created_date,
       imageUrl: openSeaAsset.image_url,
+      thumbnailImageUrl: openSeaAsset.image_thumbnail_url,
       traits: openSeaAsset.traits.map((trait) => ({
         name: trait.trait_type,
         value: trait.value,
@@ -67,6 +68,7 @@ class OpenSeaMapper {
       discordUrl: openSeaCollection.discord_url,
       externalUrl: openSeaCollection.external_url,
       bannerImageUrl: openSeaCollection.banner_image_url,
+      imageUrl: openSeaCollection.image_url,
       telegramUrl: openSeaCollection.telegram_url,
       twitterUsername: openSeaCollection.twitter_username,
       instagramUsername: openSeaCollection.instagram_username,

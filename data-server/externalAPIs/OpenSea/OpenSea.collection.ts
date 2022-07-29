@@ -4,6 +4,7 @@ export class OpenSeaCollection {
   description?: string;
   discord_url?: string;
   external_url?: string;
+  image_url?: string;
   banner_image_url?: string;
   telegram_url?: string;
   twitter_username?: string;

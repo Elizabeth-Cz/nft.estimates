@@ -1,6 +1,7 @@
 export class OpenSeaAsset {
   name?: string;
   image_url?: string;
+  image_thumbnail_url?: string;
   description?: string;
   num_sales?: number;
   permalink?: string;

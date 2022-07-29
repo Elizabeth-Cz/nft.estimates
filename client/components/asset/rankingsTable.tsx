@@ -1,21 +1,24 @@
 import React, { FC } from "react";
-import { buildColumn, Table } from "@UI/Table/Table";
+import { Table } from "@UI/Table/Table";
 import { Asset } from "@skeksify/nfte-common/dist/entities/Asset";
 import { Common } from "@RESOURCES/translations/english/common";
+import { buildColumn } from "@UI/Table/buildColumn";
 
 interface Props {
   asset: Asset;
 }
 
+const columns = [
+  buildColumn.text(Common.RankName),
+  buildColumn.text(Common.RankValue),
+  buildColumn.rank(Common.Collection),
+  buildColumn.rank(Common.Overall),
+];
+
 export const RankingsTable: FC<Props> = ({ asset }: Props) => {
   return (
     <Table
-      columns={[
-        buildColumn.text(Common.RankName),
-        buildColumn.text(Common.RankValue),
-        buildColumn.rank(Common.Collection),
-        buildColumn.rank(Common.Overall),
-      ]}
+      columns={columns}
       data={[
         // [
         //   { value: Common.EstValue },

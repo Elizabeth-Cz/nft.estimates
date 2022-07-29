@@ -1,7 +1,8 @@
 import React, { FC } from "react";
-import { buildColumn, Table } from "@UI/Table/Table";
+import { Table } from "@UI/Table/Table";
 import { Trait } from "@skeksify/nfte-common/dist/entities/Asset";
 import { Common } from "@RESOURCES/translations/english/common";
+import { buildColumn } from "@UI/Table/buildColumn";
 
 interface Props {
   traits?: Trait[];
@@ -28,16 +29,18 @@ const getRarityString = (sharersCount: number, supply: number) => {
 const getFormattedPercent = (sharersCount: number, supply: number) =>
   `${+((sharersCount / supply) * 100).toFixed(1)}`;
 
+const columns = [
+  buildColumn.text(Common.Type),
+  buildColumn.text(Common.Attribute),
+  buildColumn.text(Common.Rarity),
+  buildColumn.percent("%"),
+  // buildColumn.text("Est. Trait Value"),
+];
+
 export const TraitsTable: FC<Props> = ({ traits = [], supply }: Props) => {
   return (
     <Table
-      columns={[
-        buildColumn.text(Common.Type),
-        buildColumn.text(Common.Attribute),
-        buildColumn.text(Common.Rarity),
-        buildColumn.percent("%"),
-        // buildColumn.text("Est. Trait Value"),
-      ]}
+      columns={columns}
       data={traits.map(({ name, value, sharersCount = 0 }) => [
         { value: name },
         { value },

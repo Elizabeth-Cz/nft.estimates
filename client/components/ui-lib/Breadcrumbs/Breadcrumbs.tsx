@@ -8,6 +8,7 @@ import { Routes } from "@skeksify/nfte-common/dist/routes";
 import { useQueryField } from "../../../hooks/useQuery";
 import { useRouter } from "next/router";
 import { View } from "@UI/View/View";
+import { RouteMaker } from "../../../pages/routeMaker";
 
 interface Crumb {
   href?: string;
@@ -31,7 +32,11 @@ const crumbs: Record<CrumbNames, Crumb> = {
   },
 };
 
-const trailByPage = (page: Pages, slug?: string): Crumb[] => {
+const trailByPage = (
+  page: Pages,
+  primeSlug?: string,
+  slug?: string
+): Crumb[] => {
   const trailMap: Record<Pages, Crumb[]> = {
     [Pages.Homepage]: [crumbs.Home],
     [Pages.Collections]: [crumbs.Home, crumbs.Collections],
@@ -39,7 +44,10 @@ const trailByPage = (page: Pages, slug?: string): Crumb[] => {
     [Pages.Asset]: [
       crumbs.Home,
       crumbs.Collections,
-      { label: `Bored Ape Yacht Club` },
+      {
+        label: `Bored Ape Yacht Club`,
+        href: RouteMaker.makeCollectionPagePath(primeSlug),
+      },
       { label: `#${slug}` },
     ],
   };
@@ -48,8 +56,12 @@ const trailByPage = (page: Pages, slug?: string): Crumb[] => {
 
 export const Breadcrumbs: FC<Props> = ({ page, lightText }) => {
   const slug = useQueryField("slug");
+  const primeSlug = useQueryField("primeSlug");
   const { asPath } = useRouter();
-  const trail: Crumb[] = useMemo(() => trailByPage(page, slug), [page, slug]);
+  const trail: Crumb[] = useMemo(
+    () => trailByPage(page, primeSlug, slug),
+    [page, primeSlug, slug]
+  );
 
   return (
     <View marginTop={20} marginBottom={20}>

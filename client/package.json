@@ -4,8 +4,8 @@
   "description": "NFT Estimates UI",
   "private": true,
   "scripts": {
-    "run-client": "next dev -p 4000",
     "npmi": "npm i --legacy-peer-deps",
+    "run-client": "next dev -p 4000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -21,7 +21,7 @@
   ],
   "author": "Ben Haran",
   "dependencies": {
-    "@skeksify/nfte-common": "^1.0.943",
+    "@skeksify/nfte-common": "^1.0.946",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.8.0",

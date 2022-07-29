@@ -14,9 +14,13 @@ export class CollectionCalculatedData {
   @prop({ type: () => ChangingNumber })
   totalEstimatedValue?: ChangingNumber;
   @prop({ type: () => ChangingNumber })
-  volume24h?: ChangingNumber;
+  salesSum24h?: ChangingNumber;
   @prop({ type: () => ChangingNumber })
-  volume7d?: ChangingNumber;
+  salesSum7d?: ChangingNumber;
+  @prop({ type: () => ChangingNumber })
+  salesAmount24h?: ChangingNumber;
+  @prop({ type: () => ChangingNumber })
+  salesAmount7d?: ChangingNumber;
   @prop({ type: () => ChangingNumber })
   onSaleAmount?: ChangingNumber;
   @prop({ type: () => ChangingNumber })
@@ -32,8 +36,10 @@ export class CollectionCalculatedData {
     const { lastSalePrice, allSalePrices, last7dSales, last24hSales } =
       this.crunchData(asset);
     this.processTotalValue(lastSalePrice);
-    this.processVolume24h(_.sumBy(last24hSales, (sale) => sale.price || 0));
-    this.processVolume7d(_.sumBy(last7dSales, (sale) => sale.price || 0));
+    this.processSalesSum24h(_.sumBy(last24hSales, (sale) => sale.price || 0));
+    this.processSalesSum7d(_.sumBy(last7dSales, (sale) => sale.price || 0));
+    this.processSalesAmount24h(_.size(last24hSales));
+    this.processSalesAmount7d(_.size(last7dSales));
     asset.liveData?.onSale && this.processOnSaleAmount(1);
     this.processFloor(Math.min(...allSalePrices));
     this.processCeil(Math.max(...allSalePrices));
@@ -67,19 +73,35 @@ export class CollectionCalculatedData {
     }
   }
 
-  private processVolume24h(value: number = 0) {
-    if (!this.volume24h) {
-      this.volume24h = new ChangingNumber({ value });
+  private processSalesSum24h(value: number = 0) {
+    if (!this.salesSum24h) {
+      this.salesSum24h = new ChangingNumber({ value });
     } else {
-      this.volume24h.value += value;
+      this.salesSum24h.value += value;
     }
   }
 
-  private processVolume7d(value: number = 0) {
-    if (!this.volume7d) {
-      this.volume7d = new ChangingNumber({ value });
+  private processSalesSum7d(value: number = 0) {
+    if (!this.salesSum7d) {
+      this.salesSum7d = new ChangingNumber({ value });
     } else {
-      this.volume7d.value += value;
+      this.salesSum7d.value += value;
+    }
+  }
+
+  private processSalesAmount24h(value: number = 0) {
+    if (!this.salesAmount24h) {
+      this.salesAmount24h = new ChangingNumber({ value });
+    } else {
+      this.salesAmount24h.value += value;
+    }
+  }
+
+  private processSalesAmount7d(value: number = 0) {
+    if (!this.salesAmount7d) {
+      this.salesAmount7d = new ChangingNumber({ value });
+    } else {
+      this.salesAmount7d.value += value;
     }
   }
 

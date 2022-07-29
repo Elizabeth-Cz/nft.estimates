@@ -21,6 +21,7 @@ import { Collection } from "@skeksify/nfte-common/dist/entities/Collection";
 import { RankingsTable } from "@COMPONENTS/asset/rankingsTable";
 import { HistoryTable } from "@COMPONENTS/asset/historyTable";
 import { Tabs } from "@UI/Tabs/Tabs";
+import { formatPrice } from "@UI/Financial/Price";
 
 const forSaleStyle: CSSProperties = {
   width: 60,
@@ -102,7 +103,11 @@ export const AssetOverview: FC<Props> = ({ asset, collection }: Props) => {
                     marginL
                   >
                     {asset.imageUrl && (
-                      <Picture src={asset.imageUrl} maxWidth={352} />
+                      <Picture
+                        src={asset.imageUrl}
+                        maxWidth={352}
+                        imageMaxHeight={352}
+                      />
                     )}
                   </View>
                   <View marginL marginR fullHeight verticalCentered>
@@ -158,17 +163,24 @@ export const AssetOverview: FC<Props> = ({ asset, collection }: Props) => {
                   />
                   <FinancialOverview
                     miniMode
+                    gridSizes={{
+                      xs: 6,
+                      sm: 6,
+                      md: 3,
+                    }}
                     data={[
                       {
                         label: Common.CollectionValue,
-                        value:
-                          collection.calculatedData?.totalValue?.value + " ETH",
+                        value: formatPrice(
+                          collection.calculatedData?.totalValue?.value
+                        ),
                         IconSrc: TwoCoins,
                       },
                       {
                         label: Common.CollectionVolume24h,
-                        value:
-                          collection.calculatedData?.volume24h?.value + " ETH",
+                        value: formatPrice(
+                          collection.calculatedData?.salesSum24h?.value
+                        ),
 
                         IconSrc: TwoCoins,
                       },

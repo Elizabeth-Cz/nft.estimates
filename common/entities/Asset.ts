@@ -16,6 +16,8 @@ export class Asset extends Entity {
   @prop()
   public imageUrl?: string;
   @prop()
+  public thumbnailImageUrl?: string;
+  @prop()
   public description?: string;
   @prop()
   public permalink?: string;

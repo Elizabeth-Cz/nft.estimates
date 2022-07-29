@@ -31,12 +31,19 @@ app.get(Routes.DATA_HALL_ROOT + Routes.ASSETS, async (req, res) => {
   const { query } = req;
   console.log("Serving Asset", query);
   const { tokenId, collectionId, filter_text } = query || {};
-  if (typeof tokenId === "string" && typeof collectionId === "string") {
-    const asset = await assetRepository.getOne({
-      tokenId,
-      collectionAddress: collectionId,
-    });
-    res.send(makeResultObj([asset]));
+  if (typeof tokenId === "string" || typeof collectionId === "string") {
+    if (typeof tokenId === "string") {
+      const asset = await assetRepository.getOne({
+        tokenId,
+        collectionAddress: collectionId,
+      });
+      res.send(makeResultObj([asset]));
+    } else {
+      const assets = await assetRepository.getMany({
+        collectionAddress: collectionId,
+      });
+      res.send(makeResultObj(assets));
+    }
   } else if (typeof filter_text === "string") {
     const results = await assetRepository.getMany({
       $or: [
@@ -46,7 +53,7 @@ app.get(Routes.DATA_HALL_ROOT + Routes.ASSETS, async (req, res) => {
     });
     results && res.send(makeResultObj(results));
   } else {
-    res.send(makeErrObj(`Bad id (${tokenId})`));
+    res.send(makeErrObj(`Bad tokenId (${tokenId})`));
   }
 });
 
@@ -60,7 +67,7 @@ app.get(Routes.DATA_HALL_ROOT + Routes.COLLECTIONS, async (req, res) => {
     });
     res.send(makeResultObj([collection]));
   } else {
-    res.send(makeErrObj(`Bad id (${collectionId})`));
+    res.send(makeErrObj(`Bad collectionId (${collectionId})`));
   }
 });
 

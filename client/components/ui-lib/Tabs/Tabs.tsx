@@ -21,14 +21,13 @@ export const Tabs: FC<Props> = ({ views }: Props) => {
     setCurrentView(index);
   };
   return (
-    <Box sx={{}}>
+    <Box sx={{}} width={"100%"}>
       <MUITabs
         value={currentView}
         onChange={handleChange}
         indicatorColor="primary"
         textColor="inherit"
-        variant="fullWidth"
-        aria-label="full width tabs example"
+        variant={"scrollable"}
       >
         {views.map(([label], index) =>
           typeof label === "string" ? (

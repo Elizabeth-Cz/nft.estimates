@@ -1,6 +1,6 @@
 {
   "name": "@skeksify/nfte-common",
-  "version": "1.0.943",
+  "version": "1.0.946",
   "description": "NFTE Common Lib",
   "files": [
     "./dist/**"

@@ -20,6 +20,8 @@ export class Collection extends Entity {
   @prop()
   externalUrl?: string;
   @prop()
+  imageUrl?: string;
+  @prop()
   bannerImageUrl?: string;
   @prop()
   telegramUrl?: string;
