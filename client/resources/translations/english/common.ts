@@ -57,4 +57,6 @@ export const Common = {
   No: "No",
   AllNFTs: "All NFTs",
   Charts: "Charts",
+  CollectionRank: "Collection Rank",
+  OverallRank: "Overall Rank",
 };

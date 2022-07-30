@@ -11,8 +11,8 @@ interface Props {
 const columns = [
   buildColumn.text(Common.RankName),
   buildColumn.text(Common.RankValue),
-  buildColumn.rank(Common.Collection),
-  buildColumn.rank(Common.Overall),
+  buildColumn.rank(Common.CollectionRank),
+  buildColumn.rank(Common.OverallRank),
 ];
 
 export const RankingsTable: FC<Props> = ({ asset }: Props) => {

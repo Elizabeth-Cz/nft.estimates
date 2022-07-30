@@ -9,6 +9,7 @@ import { Picture } from "@UI/Picture/picture";
 import React, { CSSProperties, FC } from "react";
 import { Property } from "csstype";
 import Link from "next/link";
+import { View } from "@UI/View/View";
 import TextAlign = Property.TextAlign;
 
 export interface CellComponentProps {
@@ -91,10 +92,14 @@ export const buildColumn: Record<ColumnTypes, (label?: string) => Column> = {
     label,
     textAlign: "left",
     CellComponent: ({ data }) => {
-      return data.image && data.link ? (
+      return data.link ? (
         <RowView verticalCentered>
           <Link href={data.link}>
-            <Picture src={data.image} size={36} imageBorderRadius={10} />
+            {data.image ? (
+              <Picture src={data.image} size={36} imageBorderRadius={10} />
+            ) : (
+              <View width={36} />
+            )}
           </Link>
           <Text marginLeft={20} size14>
             <Link href={data.link}>{data.value}</Link>
