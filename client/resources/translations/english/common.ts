@@ -15,6 +15,7 @@ export const Common = {
   DailyEstimates: "Daily Estimates",
   HottestNFTDealsDesc: "The hottest NFT deals in your inbox, every day.",
   ExampleAtEmailDotCom: "example@email.com",
+  SubscribedCareToMakeItPersonal: "Subscribed! Care to make it personal?",
   EstValue: "Est. Value",
   EstCollectionValue: "Est. Collection Value",
   RarityFactor: "Rarity Factor",
@@ -59,4 +60,6 @@ export const Common = {
   Charts: "Charts",
   CollectionRank: "Collection Rank",
   OverallRank: "Overall Rank",
+  ThankYouEXC: "Thank You!",
+  Name: "Name",
 };

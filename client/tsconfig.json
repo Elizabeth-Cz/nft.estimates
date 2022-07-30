@@ -3,6 +3,7 @@
     "baseUrl": ".",
     "paths": {
       "@UI/*": ["components/ui-lib/*"],
+      "@NFTE-UI/*": ["components/nfte-ui-lib/*"],
       "@COMPONENTS/*": ["components/*"],
       "@DEFS/*": ["definitions/*"],
       "@ICONS/*": ["resources/icons/*"],

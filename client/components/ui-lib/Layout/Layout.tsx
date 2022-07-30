@@ -3,7 +3,7 @@ import { FCC } from "@DEFS/types";
 import { TopBar } from "@UI/TopBar/TopBar";
 import { PropsWithChildren } from "react";
 import { Pages } from "../../../pages/pages.types";
-import { Footer } from "@UI/Footer/Footer";
+import { Footer } from "@NFTE-UI/Footer/Footer";
 
 export const maxPageWidth = 1400;
 

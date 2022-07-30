@@ -4,7 +4,8 @@
   "description": "NFT Estimates Server",
   "main": "server-main.ts",
   "scripts": {
-    "start-server": "nodemon"
+    "start-server": "nodemon",
+    "start-server-debug": "nodemon --inspect"
   },
   "repository": {
     "type": "git",
@@ -13,17 +14,19 @@
   "author": "Estimator",
   "license": "ISC",
   "dependencies": {
-    "@skeksify/nfte-common": "^1.0.941",
+    "@skeksify/nfte-common": "^1.0.949",
     "@typegoose/typegoose": "^9.8.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "geoip-lite": "^1.4.5",
     "moment": "^2.29.3",
     "mongoose": "^6.3.3"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
+    "@types/geoip-lite": "^1.4.1",
     "@types/node": "^17.0.33",
     "nodemon": "^2.0.16",
     "prettier": "2.7.1",

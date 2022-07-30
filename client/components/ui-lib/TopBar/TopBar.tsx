@@ -11,7 +11,7 @@ import { AutoView } from "@UI/View/AutoView";
 import { Common } from "@RESOURCES/translations/english/common";
 import { SearchBox } from "@UI/TextInput/SearchBox";
 import { BlueButton } from "@UI/Button/Button";
-import { dailyDigestId } from "@UI/TextInput/DigestInput";
+import { dailyDigestId } from "@NFTE-UI/Inputs/DigestInput";
 
 const scrollToBottom = () => document.getElementById(dailyDigestId)?.focus();
 

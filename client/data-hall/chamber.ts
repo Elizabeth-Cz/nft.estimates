@@ -6,7 +6,9 @@ import _ from "lodash";
 const domain =
   typeof location !== "undefined" && location.hostname === "localhost"
     ? "localhost"
-    : "3.22.181.242";
+    : "nftestimates.com";
+
+export const getDomainRoot = () => `//${domain}:9000`;
 
 type Query = Record<string, string>;
 
@@ -35,7 +37,7 @@ export class Chamber<ENTITY_TYPE extends Entity> {
 
   async get(query: Query): Promise<Response<ENTITY_TYPE[]>> {
     const { data } = await axios.get<Response<ENTITY_TYPE[]>>(
-      `//${domain}:9000${this.rootUrl}`,
+      `${getDomainRoot()}${this.rootUrl}`,
       {
         params: query,
       }
